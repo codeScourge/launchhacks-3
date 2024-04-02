@@ -188,7 +188,6 @@
     
             // This will be changed by the user depending on what he wants to do
             const endFunction = () => {
-                document.getElementById("quiz-audio-win").play()
                 console.log("You ended the quiz")
             }
     
@@ -276,57 +275,60 @@
                         button.className = "quiz_button"
                         button.id = "quiz-button";
     
-    
-                        // check if content is a p or img tag
-                        if ((content.tagName === "P" && content.className === "quiz_text") || (content.tagName === "IMG" && content.className === "quiz_img")) {
-                            console.log("Static Content")
 
+                        if (i === quizContent.children.length - 1) {
+                            button.innerHTML = "Finish Quiz";
                             button.addEventListener("click", () => {
-                                document.getElementById('quiz-audio-blob').play()
+                                document.getElementById('quiz-audio-win').play()
                                 document.dispatchEvent(next);
                             });
+                        }  else {
 
+                            // check if content is a p or img tag
+                            if ((content.tagName === "P" && content.className === "quiz_text") || (content.tagName === "IMG" && content.className === "quiz_img")) {
+                                console.log("Static Content")
 
-                            if (i === quizContent.children.length - 1) {
-                                button.innerHTML = "Finish Quiz";
-                            } else {
-                                //console.log("next button")
+                                button.addEventListener("click", () => {
+                                    document.getElementById('quiz-audio-blob').play()
+                                    document.dispatchEvent(next);
+                                });
+
                                 button.innerHTML = "Next";
-                            }
-                        } 
+                            } 
 
-                        else if (content.tagName === "DIV" && content.className === "quiz_question") {
-                            console.log("Question Content")
-                            button.innerHTML = "Submit"
-                            
-                            button.addEventListener("click", () => {
-                                const content_id = content.id;
-                                const quiz_obj = getQuizObj(content_id);
-                                let user_answer
-
+                            else if (content.tagName === "DIV" && content.className === "quiz_question") {
+                                console.log("Question Content")
+                                button.innerHTML = "Submit"
                                 
-                                if (quiz_obj.type === "checkbox") {
-                                    user_answer = getCheckboxAnswer(content);
-                                } else if (quiz_obj.type === "radio") {
-                                    user_answer = getRadioAnswer(content);
-                                } else {
-                                    console.log("Error: Unknown type of quiz")
-                                }
+                                button.addEventListener("click", () => {
+                                    const content_id = content.id;
+                                    const quiz_obj = getQuizObj(content_id);
+                                    let user_answer
+
+                                    
+                                    if (quiz_obj.type === "checkbox") {
+                                        user_answer = getCheckboxAnswer(content);
+                                    } else if (quiz_obj.type === "radio") {
+                                        user_answer = getRadioAnswer(content);
+                                    } else {
+                                        console.log("Error: Unknown type of quiz")
+                                    }
 
 
-                                // TODO: only continue if correct
-                                if (user_answer == quiz_obj.answer) {
-                                    console.log("Correct");
-                                } else {
-                                    console.log("Incorrect");
-                                }
+                                    // TODO: only continue if correct
+                                    if (user_answer == quiz_obj.answer) {
+                                        console.log("Correct");
+                                    } else {
+                                        console.log("Incorrect");
+                                    }
 
 
-                                finishQuestion(content, quiz_obj.answer);
-                                document.dispatchEvent(next);
-                            });
+                                    finishQuestion(content, quiz_obj.answer);
+                                    document.dispatchEvent(next);
+                                });
+                            }
                         }
-    
+        
                         // replacing the button
                         const quizButton = document.getElementById('quiz-button');
                         quizButton.parentNode.replaceChild(button, quizButton);
