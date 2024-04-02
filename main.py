@@ -5,6 +5,7 @@ COMPLETION_JS = "console.log('Hello, World!');"
 # The first component HAS to be a static introducing this quiz
 # The last should also be a static
 
+title = "My Quiz Title"
 quiz_array = [
     {"type": "text", "text": "..."},    # str, str
     {"type": "image", "fname": "image.jpg", "alt": "alt text"}, # str, str, str

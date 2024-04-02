@@ -25,7 +25,7 @@
     <style>
         :root {
             --background: #f7f7f8;
-            --selected_background: #c9c6c6;
+            --selected_background: #d3d0d0;
             --accent: #818386;
 
             color: #000000;
@@ -140,14 +140,15 @@
 
         /* others */
         .quiz_button {
-            padding: 0.25rem;
-            padding-left: 1rem;
-            padding-right: 1rem;
+            padding: 0.5rem;
+            padding-left: 1.5rem;
+            padding-right: 1.5rem;
 
             background-color: #4272d2;
             
             color: white !important;
-            font-weight: bold;
+            font-size: larger;
+            font-weight: 500;
 
             border: none;
             border-radius: 8px;
@@ -162,6 +163,12 @@
         .quiz_audio {
             display: none;
         }
+
+        #quiz-title {
+            width: 100%;
+            text-align: left;
+        }
+
     </style>
 
     <script>
@@ -350,6 +357,7 @@
 <body>
 
     <main id="quiz">
+        <h1 id="quiz-title">My cool Quiz</h1>
         <div id="quiz-content">
             <!-- intro text -->
             <p class="quiz_text" style="display: flex">
@@ -374,7 +382,7 @@
                     <label for="quiz_1_2">Thursday</label>
                 </div>
                 <div class="quiz_question__explanation">
-                    <p>Explanation: Today is Tuesday</p>
+                    <p>Today is Tuesday</p>
                 </div>
             </div>
 
@@ -394,7 +402,7 @@
                 </div>
 
                 <div class="quiz_question__explanation">
-                    <p>Explanation: The picture has a red flower and a green leaf</p>
+                    <p>The picture has a red flower and a green leaf</p>
                 </div>
             </div>
 
