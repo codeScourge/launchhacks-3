@@ -24,8 +24,8 @@
     <!-- The style we give the user -->
     <style>
         :root {
-            --background: #d1cdcd;
-            --selected_background: #bbb8b8;
+            --background: #f7f7f8;
+            --selected_background: #c9c6c6;
             --accent: #818386;
 
             color: #000000;
@@ -73,10 +73,10 @@
             flex-flow: column;
             align-items: center;
             justify-content: space-between;
-            text-align: center;
+            text-align: left;
 
             gap: 1rem;
-            padding: 2rem;
+            padding: 1rem;
             border-radius: 10px;
         }
 
@@ -88,28 +88,35 @@
             width: 100%;
 
             display: flex;
-            flex-flow: row;
-            align-items: center;
-            justify-content: space-evenly;
+            flex-flow: column;
+            align-items: flex-start;
+            justify-content: space-between;
+
+            gap: 0.5rem;
         }
 
-        /* radio buttons styling */
-        .quiz_question__lower input[type="radio"] {
+        /* buttons styling */
+        .quiz_question__lower input {
             display: none;
         }
 
-        .quiz_question__lower input[type="radio"] + label {
+        .quiz_question__lower input + label {
+            width: 100%;
+
             padding: 0.5rem;
             padding-left: 1rem;
             padding-right: 1rem;
 
+            box-sizing: border-box;
+
             border: 2px solid var(--accent);
             border-radius: 5px;
 
+            text-align: left;
             cursor: pointer;
         }
 
-        .quiz_question__lower input[type="radio"]:checked + label {
+        .quiz_question__lower input:checked + label {
             background-color: var(--selected_background);
         }
 
@@ -118,7 +125,7 @@
             display: none;
         }
 
-        /* button */
+        /* others */
         .quiz_button {
             padding: 0.25rem;
             padding-left: 1rem;
@@ -139,17 +146,21 @@
             }
         }
 
+        .quiz_audio {
+            display: none;
+        }
     </style>
 
     <script>
+        // TODO: sound is not played when you click immediately
+        
         document.addEventListener("DOMContentLoaded", () => {
             let quizContent = document.getElementById('quiz-content');
-
 
             // Control of taking a step is built using events
             const next = new Event("next");
             document.getElementById('quiz-button').addEventListener("click", () => {
-                console.log("dispatching event")
+                document.getElementById('quiz-audio-blob').play()
                 document.dispatchEvent(next);
             });
     
@@ -193,12 +204,42 @@
     
 
             // --- helper to show explanation and block further input
-            const finishQuestion  = (content) => {
-                const explanation = content.querySelector(".quiz_question__explanation");
-                explanation.style.display = "flex";
-                const lower = content.querySelector(".quiz_question__lower");
-                for (const input of lower.children) {
-                    input.disabled = true;
+            const finishQuestion  = (content, correctIdxs) => {
+                content.querySelector(".quiz_question__explanation").style.display = "flex";
+
+                if (typeof correctIdxs === "number") {
+                    correctIdxs = [correctIdxs];
+                }
+
+                // looping over children, disabling inputs, setting corresponding labels to their status
+                let children = content.querySelector(".quiz_question__lower").children;
+                let errors = 0;
+                let corrects = 0;
+                for (let i=0; i<children.length; i++) {
+                    let child = children[i];
+                    if (child.tagName === "INPUT") {
+                        child.disabled = true;  // retarded children lol
+
+                        if ((correctIdxs.includes(i) && child.checked)) {
+                            children[i+1].style.borderColor = "green";
+                            corrects++;
+                        } else if ((!correctIdxs.includes(i) && child.checked) || (correctIdxs.includes(i) && !child.checked)) {
+                            children[i+1].style.borderColor = "red";
+                            errors++;
+                        }
+
+                        i++
+                    } else if (child.tagName === "LABEL") {
+                        continue;
+                    } else {
+                        console.log("Error: Unknown tag")
+                    }
+                }
+
+                if (errors === 0 && corrects === correctIdxs.length) {
+                    document.getElementById('quiz-audio-blob').play()
+                } else {
+                    document.getElementById('quiz-audio-error').play()
                 }
             }
     
@@ -226,6 +267,7 @@
                             console.log("Static Content")
 
                             button.addEventListener("click", () => {
+                                document.getElementById('quiz-audio-blob').play()
                                 document.dispatchEvent(next);
                             });
 
@@ -256,9 +298,6 @@
                                 } else {
                                     console.log("Error: Unknown type of quiz")
                                 }
-    
-
-                                console.log(user_answer, quiz_obj.answer);
 
 
                                 // TODO: only continue if correct
@@ -269,7 +308,7 @@
                                 }
 
 
-                                finishQuestion(content);
+                                finishQuestion(content, quiz_obj.answer);
                                 document.dispatchEvent(next);
                             });
                         }
@@ -309,7 +348,7 @@
 
             <!-- radio -->
             <div class="quiz_question" id="quiz_1">
-                <h3 class="quiz_question__upper">What day is today (choose one)</h3>
+                <h4 class="quiz_question__upper">What day is today (choose one)</h4>
                 <div class="quiz_question__lower">
                     <input type="radio" name="quiz_1" value="0" id="quiz_1_0">
                     <label for="quiz_1_0">Tuesday</label>
@@ -328,7 +367,7 @@
 
             <!-- checkbox -->
             <div class="quiz_question" id="quiz_2">
-                <h3 class="quiz_question__upper">What colors are in the picture (choose all that apply)</h3>
+                <h4 class="quiz_question__upper">What colors are in the picture (choose all that apply)</h4>
                 <div class="quiz_question__lower">
                     <input type="checkbox" name="quiz_2" value="0" id="quiz_2_0">
                     <label for="quiz_2_0">Red</label>
@@ -350,6 +389,9 @@
         <button id="quiz-button" class="quiz_button">
             Start Quiz
         </button>
+
+        <audio src="blob.mp3" id="quiz-audio-blob" class="quiz_audio"></audio>
+        <audio src="error.mp3" id="quiz-audio-error"></audio>
     </main>
 </body>
 </html>
