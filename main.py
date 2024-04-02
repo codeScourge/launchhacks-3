@@ -2,7 +2,8 @@
 
 
 COMPLETION_JS = "console.log('Hello, World!');"
-
+# The first component HAS to be a static introducing this quiz
+# The last should also be a static
 
 quiz_array = [
     {"type": "text", "text": "..."},    # str, str

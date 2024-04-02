@@ -3,13 +3,49 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
+    <title>The Users Page</title>
+
+    <!-- The style the simulated user has -->
     <style>
-        #quiz-content {
-            max-width: 600px;
+        body {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            flex-flow: column;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+    </style>
+
+    <!-- The style we give the user -->
+    <style>
+        :root {
+            --background: #d1cdcd;
+            --selected_background: #bbb8b8;
+            --accent: #818386;
+
+            color: #000000;
+            font-family: "Soleil",Arial,sans-serif;
+            font-size: 16px;
+            line-height: 1.6rem;
+        }
+
+        #quiz {
+            width: min(600px, 50%);
             height: 100%;
+
+            display: flex;
+            flex-flow: column;
+            align-items: center;
+            justify-content: flex-start;
+        }
+
+        #quiz-content {
+            width: 100%;
             display: flex;
             flex-flow: column;
             align-items: center;
@@ -26,16 +62,26 @@
             width: 100%;
         }
 
+
+        /* quiz questions */
         .quiz_question {
+            width: 80% !important;
+
+            background-color: var(--background);
+
             display: flex;
             flex-flow: column;
             align-items: center;
             justify-content: space-between;
+            text-align: center;
 
             gap: 1rem;
             padding: 2rem;
-            border: 2px solid black;
             border-radius: 10px;
+        }
+
+        .quiz_question__upper {
+            font-weight: bold;
         }
 
         .quiz_question__lower {
@@ -47,8 +93,50 @@
             justify-content: space-evenly;
         }
 
+        /* radio buttons styling */
+        .quiz_question__lower input[type="radio"] {
+            display: none;
+        }
+
+        .quiz_question__lower input[type="radio"] + label {
+            padding: 0.5rem;
+            padding-left: 1rem;
+            padding-right: 1rem;
+
+            border: 2px solid var(--accent);
+            border-radius: 5px;
+
+            cursor: pointer;
+        }
+
+        .quiz_question__lower input[type="radio"]:checked + label {
+            background-color: var(--selected_background);
+        }
+
+        /* hide explanation at first */
         .quiz_question__explanation {
             display: none;
+        }
+
+        /* button */
+        .quiz_button {
+            padding: 0.25rem;
+            padding-left: 1rem;
+            padding-right: 1rem;
+
+            background-color: #4272d2;
+            
+            color: white !important;
+            font-weight: bold;
+
+            border: none;
+            border-radius: 8px;
+
+            margin-top: 2rem;
+
+            &:hover {
+                background-color: rgb(36, 65, 127);
+            }
         }
 
     </style>
@@ -117,7 +205,7 @@
 
             // taking a step
             const revealOneAndBuildButton = () => {
-                //console.log("Step function triggere")
+                //console.log("Step function triggered")
                 for (let i = 0; i < quizContent.children.length; i++) {
                     const content = quizContent.children[i];
                     if (window.getComputedStyle(content).display === "none") {
@@ -129,14 +217,8 @@
     
                         // building the new button
                         let button = document.createElement("button");
+                        button.className = "quiz_button"
                         button.id = "quiz-button";
-                        if (i === quizContent.children.length - 1) {
-                            //console.log("finish button")
-                            button.innerHTML = "Finish Quiz";
-                        } else {
-                            //console.log("next button")
-                            button.innerHTML = "Next";
-                        }
     
     
                         // check if content is a p or img tag
@@ -146,10 +228,20 @@
                             button.addEventListener("click", () => {
                                 document.dispatchEvent(next);
                             });
+
+
+                            if (i === quizContent.children.length - 1) {
+                                //console.log("finish button")
+                                button.innerHTML = "Finish Quiz";
+                            } else {
+                                //console.log("next button")
+                                button.innerHTML = "Next";
+                            }
                         } 
 
                         else if (content.tagName === "DIV" && content.className === "quiz_question") {
                             console.log("Question Content")
+                            button.innerHTML = "Submit"
                             
                             button.addEventListener("click", () => {
                                 const content_id = content.id;
@@ -169,7 +261,7 @@
                                 console.log(user_answer, quiz_obj.answer);
 
 
-                                // TODO: only continuer if correct
+                                // TODO: only continue if correct
                                 if (user_answer == quiz_obj.answer) {
                                     console.log("Correct");
                                 } else {
@@ -199,18 +291,32 @@
             });
         })
     </script>
+</head>
+<body>
+
     <main id="quiz">
         <div id="quiz-content">
+            <!-- intro text -->
+            <p class="quiz_text" style="display: flex">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Pariatur magnam beatae nam, reprehenderit distinctio perferendis odio ratione modi hic molestias omnis porro, reiciendis voluptatem inventore architecto consequatur tempora dolore animi?
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Pariatur magnam beatae nam, reprehenderit distinctio perferendis odio ratione modi hic molestias omnis porro, reiciendis voluptatem inventore architecto consequatur tempora dolore animi?
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Pariatur magnam beatae nam, reprehenderit distinctio perferendis odio ratione modi hic molestias omnis porro, reiciendis voluptatem inventore architecto consequatur tempora dolore animi?
+            </p>
+
+
             <!-- text -->
             <p class="quiz_text">Today is tuesday</p>
 
             <!-- radio -->
             <div class="quiz_question" id="quiz_1">
-                <h5 class="quiz_question__upper">What day is today (choose one)</h5>
+                <h3 class="quiz_question__upper">What day is today (choose one)</h3>
                 <div class="quiz_question__lower">
-                    <input type="radio" name="quiz_1" value="0"> Tuesday
-                    <input type="radio" name="quiz_1" value="1"> Wednesday
-                    <input type="radio" name="quiz_1" value="2"> Thursday
+                    <input type="radio" name="quiz_1" value="0" id="quiz_1_0">
+                    <label for="quiz_1_0">Tuesday</label>
+                    <input type="radio" name="quiz_1" value="1" id="quiz_1_1">
+                    <label for="quiz_1_1">Wednesday</label>
+                    <input type="radio" name="quiz_1" value="2" id="quiz_1_2">
+                    <label for="quiz_1_2">Thursday</label>
                 </div>
                 <div class="quiz_question__explanation">
                     <p>Explanation: Today is Tuesday</p>
@@ -222,21 +328,27 @@
 
             <!-- checkbox -->
             <div class="quiz_question" id="quiz_2">
-                <h5 class="quiz_question__upper">What colors are in the picture (choose all that apply)</h5>
+                <h3 class="quiz_question__upper">What colors are in the picture (choose all that apply)</h3>
                 <div class="quiz_question__lower">
-                    <input type="checkbox" name="quiz_1" value="0"> Red
-                    <input type="checkbox" name="quiz_1" value="1"> Blue
-                    <input type="checkbox" name="quiz_1" value="2"> Green
+                    <input type="checkbox" name="quiz_2" value="0" id="quiz_2_0">
+                    <label for="quiz_2_0">Red</label>
+                    <input type="checkbox" name="quiz_2" value="1" id="quiz_2_1">
+                    <label for="quiz_2_1">Green</label>
+                    <input type="checkbox" name="quiz_2" value="2" id="quiz_2_2">
+                    <label for="quiz_2_2">Blue</label>
                 </div>
 
                 <div class="quiz_question__explanation">
                     <p>Explanation: The picture has a red flower and a green leaf</p>
                 </div>
             </div>
+
+            <!-- outro text -->
+            <p class="quiz_text">Thank you for taking the quiz</p>
         </div>
 
-        <button id="quiz-button">
-            Start
+        <button id="quiz-button" class="quiz_button">
+            Start Quiz
         </button>
     </main>
 </body>
