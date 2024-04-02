@@ -47,18 +47,20 @@
             justify-content: space-evenly;
         }
 
+        .quiz_question__explanation {
+            display: none;
+        }
+
     </style>
 
     <script>
         document.addEventListener("DOMContentLoaded", () => {
             let quizContent = document.getElementById('quiz-content');
-            let quizButton = document.getElementById('quiz-button');
-            console.log(quizContent, quizButton);
 
 
             // Control of taking a step is built using events
             const next = new Event("next");
-            quizButton.addEventListener("click", () => {
+            document.getElementById('quiz-button').addEventListener("click", () => {
                 console.log("dispatching event")
                 document.dispatchEvent(next);
             });
@@ -80,7 +82,7 @@
             // --- helpers to retrieve answer from quizes
             // return single int
             const getRadioAnswer = (content) => {
-                const lower = content.querySelector(".quiz_question__lower")[0];
+                const lower = content.querySelector(".quiz_question__lower");
                 for (const input of lower.children) {
                     if (input.checked) {
                         return input.value;
@@ -91,7 +93,7 @@
     
             // returns array of int
             const getCheckboxAnswer = (content) => {
-                const lower = content.querySelector(".quiz_question__lower")[0];
+                const lower = content.querySelector(".quiz_question__lower");
                 let answers = [];
                 for (const input of lower.children) {
                     if (input.checked) {
@@ -101,27 +103,38 @@
                 return answers;
             }
     
+
+            // --- helper to show explanation and block further input
+            const finishQuestion  = (content) => {
+                const explanation = content.querySelector(".quiz_question__explanation");
+                explanation.style.display = "flex";
+                const lower = content.querySelector(".quiz_question__lower");
+                for (const input of lower.children) {
+                    input.disabled = true;
+                }
+            }
     
 
             // taking a step
             const revealOneAndBuildButton = () => {
-                console.log("Step function triggere")
+                //console.log("Step function triggere")
                 for (let i = 0; i < quizContent.children.length; i++) {
                     const content = quizContent.children[i];
                     if (window.getComputedStyle(content).display === "none") {
-                        console.log("Display is none, revealing")
+                        //console.log("Display is none, revealing")
+                        console.log(content)
     
                         // revealing one more content
                         content.style.display = "block";
     
-    
                         // building the new button
                         let button = document.createElement("button");
+                        button.id = "quiz-button";
                         if (i === quizContent.children.length - 1) {
-                            console.log("finish button")
+                            //console.log("finish button")
                             button.innerHTML = "Finish Quiz";
                         } else {
-                            console.log("next button")
+                            //console.log("next button")
                             button.innerHTML = "Next";
                         }
     
@@ -131,37 +144,46 @@
                             console.log("Static Content")
 
                             button.addEventListener("click", () => {
-                                window.dispatchEvent(next);
+                                document.dispatchEvent(next);
                             });
                         } 
 
-                        else if (content.tagName === "DIV" && content.className === "question") {
+                        else if (content.tagName === "DIV" && content.className === "quiz_question") {
                             console.log("Question Content")
                             
                             button.addEventListener("click", () => {
                                 const content_id = content.id;
                                 const quiz_obj = getQuizObj(content_id);
-    
+                                let user_answer
+
+                                
                                 if (quiz_obj.type === "checkbox") {
-                                    const user_answer = getCheckboxAnswer(content);
+                                    user_answer = getCheckboxAnswer(content);
+                                } else if (quiz_obj.type === "radio") {
+                                    user_answer = getRadioAnswer(content);
+                                } else {
+                                    console.log("Error: Unknown type of quiz")
                                 }
     
-                                else if (quiz_obj.type === "radio") {
-                                    const user_answer = getRadioAnswer(content);
-                                }
-    
+
                                 console.log(user_answer, quiz_obj.answer);
-                                if (user_answer === quiz_obj.answer) {
-                                    dispatchEvent(next);
+
+
+                                // TODO: only continuer if correct
+                                if (user_answer == quiz_obj.answer) {
                                     console.log("Correct");
                                 } else {
-                                    alert("Incorrect, please try again")
                                     console.log("Incorrect");
                                 }
+
+
+                                finishQuestion(content);
+                                document.dispatchEvent(next);
                             });
                         }
     
                         // replacing the button
+                        const quizButton = document.getElementById('quiz-button');
                         quizButton.parentNode.replaceChild(button, quizButton);
                         return;
                     }
@@ -172,7 +194,7 @@
 
             // listening for event
             document.addEventListener("next", () => {
-                console.log("Next event is triggered");
+                //console.log("Next event is triggered");
                 revealOneAndBuildButton();
             });
         })
