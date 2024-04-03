@@ -1,6 +1,7 @@
 text = document.getElementById('text'); // Button for creating text component
 image = document.getElementById('image'); // Button for creating image component
-question = document.getElementById('question'); // Button for creating question component
+radio = document.getElementById('radio'); // Button for creating radio component
+checkbox = document.getElementById('checkbox'); // Button for creating checkbox
 
 inner = document.getElementById('inner'); // Container for components
 editor = document.getElementById('editor'); // Container for editing components
@@ -91,6 +92,14 @@ image.addEventListener('click', function () {
     editImage(null) // Open the editor with a new image component
 })
 
+radio.addEventListener('click', function () {
+    editRadio(null) // Open the editor with a new radio component
+})
+
+checkbox.addEventListener('click', function () {
+    editCheckbox(null) // Open the editor with a new checkbox component
+})
+
 function editText(index) {
     editor.replaceChildren() // Clear the editor
 
@@ -124,6 +133,7 @@ function editText(index) {
     deleteButton = document.createElement('button')
     deleteButton.classList.add('delete')
     deleteButton.innerHTML = '<img src="/static/delete.svg">'
+    editor.className = "text-editor"
     // deleteButton.innerHTML = 'Delete'
     deleteButton.addEventListener('click', function () {
         components.splice(index, 1)
@@ -145,7 +155,8 @@ function editImage(index) {
         index = components.length - 1
     }
 
-    editor.style.display = 'block'
+    editor.style.display = 'flex'
+    editor.className = "image-editor"
 
 
     let component = components[index]
@@ -159,19 +170,24 @@ function editImage(index) {
     altText.value = component.alt
 
     deleteButton = document.createElement('button')
-    deleteButton.innerHTML = 'Delete'
+    deleteButton.classList.add('delete')
+    deleteButton.innerHTML = '<img src="/static/delete.svg">'
     deleteButton.addEventListener('click', function () {
         components.splice(index, 1)
-        updatePage()
         editor.replaceChildren() // Clear the editor
         editor.style.display = 'none'
+        updatePage()
+
     })
 
     editor.appendChild(editorUrl)
     editor.appendChild(altText)
 
+    optionWrapper = document.createElement('span')
+    optionWrapper.classList.add('option-wrapper')
     doneButton = document.createElement('button')
-    doneButton.innerHTML = 'Done'
+    doneButton.classList.add('done')
+    doneButton.innerHTML = '<img src="/static/done.svg">'
 
     doneButton.addEventListener('click', function () {
         components[index].url = editorUrl.value // Transfer new text to the component
@@ -183,8 +199,9 @@ function editImage(index) {
     })
 
 
-    editor.appendChild(doneButton)
-    editor.appendChild(deleteButton)
+    optionWrapper.appendChild(doneButton)
+    optionWrapper.appendChild(deleteButton)
+    editor.appendChild(optionWrapper)
 
 }
 
@@ -193,11 +210,13 @@ function editRadio(index) {
 
     if (index == null) {
         // Create a new text component
-        components.push({ "type": "image", "url": "https://via.placeholder.com/500", "alt": "placeholder image" })
+        components.push({ "type": "radio", "question": "", "explanation": "", "choices": [], "answer_idx": 0 })
         index = components.length - 1
     }
 
-    editor.style.display = 'block'
+    editor.style.display = 'flex'
+    editor.className = "radio-editor"
+
 
 
     let component = components[index]
@@ -224,9 +243,12 @@ function editRadio(index) {
     editor.appendChild(editorChoices)
     editor.appendChild(editorAnswer)
 
+    optionWrapper = document.createElement('span')
+    optionWrapper.classList.add('option-wrapper')
 
     deleteButton = document.createElement('button')
-    deleteButton.innerHTML = 'Delete'
+    deleteButton.classList.add('delete')
+    deleteButton.innerHTML = '<img src="/static/delete.svg">'
     deleteButton.addEventListener('click', function () {
         components.splice(index, 1)
         updatePage()
@@ -236,7 +258,8 @@ function editRadio(index) {
 
 
     doneButton = document.createElement('button')
-    doneButton.innerHTML = 'Done'
+    doneButton.classList.add('done')
+    doneButton.innerHTML = '<img src="/static/done.svg">'
 
     doneButton.addEventListener('click', function () {
         // components[index].url = editorUrl.value // Transfer new text to the component
@@ -253,9 +276,9 @@ function editRadio(index) {
     })
 
 
-    editor.appendChild(doneButton)
-    editor.appendChild(deleteButton)
-
+    optionWrapper.appendChild(doneButton)
+    optionWrapper.appendChild(deleteButton)
+    editor.appendChild(optionWrapper)
 }
 
 function editCheckbox(index) {
@@ -263,11 +286,13 @@ function editCheckbox(index) {
 
     if (index == null) {
         // Create a new text component
-        components.push({ "type": "image", "url": "https://via.placeholder.com/500", "alt": "placeholder image" })
+        components.push({ "type": "checkbox", "question": "", "explanation": "", "choices": [], "answer_idxs": [] })
         index = components.length - 1
     }
 
-    editor.style.display = 'block'
+    editor.style.display = 'flex'
+    editor.className = "check-editor"
+
 
 
     let component = components[index]
@@ -293,9 +318,11 @@ function editCheckbox(index) {
     editor.appendChild(editorChoices)
     editor.appendChild(editorAnswer)
 
-
+    optionWrapper = document.createElement('span')
+    optionWrapper.classList.add('option-wrapper')
     deleteButton = document.createElement('button')
-    deleteButton.innerHTML = 'Delete'
+    deleteButton.classList.add('delete')
+    deleteButton.innerHTML = '<img src="/static/delete.svg">'
     deleteButton.addEventListener('click', function () {
         components.splice(index, 1)
         updatePage()
@@ -303,9 +330,9 @@ function editCheckbox(index) {
         editor.style.display = 'none'
     })
 
-
     doneButton = document.createElement('button')
-    doneButton.innerHTML = 'Done'
+    doneButton.classList.add('done')
+    doneButton.innerHTML = '<img src="/static/done.svg">'
 
     doneButton.addEventListener('click', function () {
         // components[index].url = editorUrl.value // Transfer new text to the component
@@ -321,10 +348,9 @@ function editCheckbox(index) {
 
     })
 
-
-    editor.appendChild(doneButton)
-    editor.appendChild(deleteButton)
-
+    optionWrapper.appendChild(doneButton)
+    optionWrapper.appendChild(deleteButton)
+    editor.appendChild(optionWrapper)
 }
 
 function editComponent(index) {
@@ -377,6 +403,7 @@ function reattatchListeners() {
     inner.innerHTML = ''
     console.log('Reattaching listeners')
     for (let i = 0; i < components.length; i++) {
+        
         component = components[i]
         console.log(component.type)
         // Add to DOM
@@ -458,6 +485,37 @@ function reattatchListeners() {
         componentElement.addEventListener('click', function () {
             editComponent(i)
         })
+        
+        // Drag and drop
+
+        componentElement.draggable = true
+        componentElement.ondragstart = (e) => {
+            e.dataTransfer.setData('text/plain', i)
+        }
+
+        let dragTarget = document.createElement('div')
+        dragTarget.classList.add('drag-target')
+        dragTarget.style.height = '50px'
+        dragTarget.id = "drag-target-" + i
+
+        dragTarget.ondragover = (e) => {
+            e.preventDefault()
+            dragTarget.innerHTML = "OOOGA"
+        }
+        dragTarget.ondragleave = (e) => {
+            dragTarget.innerHTML = ""
+        }
+        dragTarget.ondrop = (e) => {
+            e.preventDefault()
+            let data = e.dataTransfer.getData("text");
+            console.log(data)
+            let draggedComponent = components[data]
+            components.splice(data, 1)
+            components.splice(i, 0, draggedComponent)
+            updatePage()
+
+        }
+        inner.appendChild(dragTarget)
     }
 }
 

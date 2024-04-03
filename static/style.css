@@ -89,8 +89,97 @@ body {
     padding: 0;
 }
 
+.image-editor {
+    flex-flow: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+}
+
+
+.image-editor>input {
+    padding: 0.7rem;
+    border: 1px solid #e0e0e0;
+    font-size: 1.2rem;
+    border-radius: 12px;
+    width: 50vw;
+}
+
+.option-wrapper {
+    display: flex;
+    flex-flow: row;
+    align-items: center;
+    justify-content: center;
+    gap: 10rem;
+
+}
+
+.radio-editor {
+    flex-flow: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+}
+
+.radio-editor>input {
+    padding: 0.7rem;
+    border: 1px solid #e0e0e0;
+    font-size: 1.2rem;
+    border-radius: 12px;
+    width: 50vw;
+}
+
+.radio-editor>textarea {
+    width: 50vw;
+    height: 5rem;
+    resize: none;
+    border: none;
+    font-size: 1rem;
+    padding: 0.7rem;
+    border: 1px solid #e0e0e0;
+
+    background-color: white;
+    outline: none;
+
+    border-radius: 12px;
+
+    font: inherit;
+}
+
+.check-editor {
+    flex-flow: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+}
+
+.check-editor>input {
+    padding: 0.7rem;
+    border: 1px solid #e0e0e0;
+    font-size: 1.2rem;
+    border-radius: 12px;
+    width: 50vw;
+}
+
+.check-editor>textarea {
+    width: 50vw;
+    height: 5rem;
+    resize: none;
+    border: none;
+    font-size: 1rem;
+    padding: 0.7rem;
+    border: 1px solid #e0e0e0;
+
+    background-color: white;
+    outline: none;
+
+    border-radius: 12px;
+
+    font: inherit;
+}
+
 /* Text */
-textarea {
+.text-editor>textarea {
     width: 95vw;
     height: 88vh;
     resize: none;
@@ -113,6 +202,9 @@ button {
     justify-content: center;
     align-items: center;
     margin-bottom: 2rem;
+    font: inherit;
+    border: none;
+    padding: 0.5rem;
 }
 
 .done {
