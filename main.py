@@ -1,4 +1,4 @@
-
+import markdown
 
 
 COMPLETION_JS = "console.log('Hello, World!');"
@@ -12,3 +12,13 @@ quiz_array = [
     {"type": "radio", "question": "...", "choices": ["...", "...", "..."], "answer_idx": 0}, # str, str, list, int
     {"type": "checkbox", "question": "...", "choices": ["...", "...", "..."], "answer_idxs": [0, 1]}, # str, str, list, list
 ]
+
+def main(data: list):
+    # Temporary backend for testing
+    full_html = ""
+    for item in data:
+        if item['type'] == 'text':
+            full_html += "<span class=\"component text\">"+markdown.markdown(item['text'])+"</span>"
+        if item['type'] == 'image':
+            full_html += f"<span class=\"component image\"><img src='{item['url']}' alt='{item['alt']}'></span>"
+    return full_html

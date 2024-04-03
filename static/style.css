@@ -1,0 +1,120 @@
+body {
+    font-family: 'Inter', sans-serif;
+}
+
+.create {
+    width: 100%;
+    text-align: center;
+}
+.create-toolbar {
+    background-color: #e0e0e060;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 1rem;
+
+    border-radius: 1000rem;
+}
+.create-action {
+    /* background-color: red; */
+
+    height: 2rem;
+    width: 2rem;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+
+    margin: 0.5rem;
+
+    border-radius: 100%;
+
+    transition: 0.25s ease-in;
+}
+
+.create-action:hover {
+    background-color: #e0e0e0;
+    transform: scale(1.07);
+}
+
+.create-icon {
+    height: 1.25rem;
+}
+
+/* Components */
+.component {
+    padding: 0.75rem;
+    display: block;
+}
+
+.component:hover {
+    background-color: #e0e0e0;
+}
+
+
+/* Editor */
+#editor {
+    display: none;
+    position: fixed;
+    top: 0;
+    right: 0;
+    background-color: #fff;
+    height: 100vh;
+    width: 100vw;
+    padding: 0;
+}
+
+/* Text */
+textarea {
+    width: 95vw;
+    height: 88vh;
+    resize: none;
+    border: none;
+    font-size: 1rem;
+    margin-top: 1.25vw;
+    margin-left: 1.25vw;
+    padding: 1rem;
+    border: 1px solid #e0e0e0;
+
+    background-color: white;
+    outline: none;
+
+    font: inherit;
+
+}
+
+button {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+.done {
+    width: 2rem;
+    height: 2rem;
+    border: none;
+    border-radius: 1rem;
+
+    font:inherit;
+    margin-right: 1rem;
+    margin-left: 1rem;
+
+    background-color: #41c6ff;
+
+    float: right;
+}
+.delete {
+    width: 2rem;
+    height: 2rem;
+    border: none;
+    border-radius: 1rem;
+
+    font:inherit;
+    margin-right: 1rem;
+    margin-left: 1rem;
+
+    background-color: #ff4141;
+}
+
+button>img {
+    height: 1.25rem;
+}
