@@ -170,9 +170,9 @@ if __name__ == "__main__":
     introduction = "Welcome to my quiz!"
     quiz_array = [
         {"type": "text", "text": "Today is tuesday"},    # str, str
-        {"type": "image", "url": "image.jpg", "alt": "alt text"}, # str, str, str
         {"type": "radio", "question": "What day is today", "explanation": "It's Tuesday", "choices": ["Tuesday", "Friday", "Saturday"], "answer_idx": 0}, # str, str, str, list, int
-        {"type": "checkbox", "question": "What colors do I like", "explanation": "All of em", "choices": ["Red", "Green", "Blue"], "answer_idxs": [0, 1, 2]}, # str, str, str, list, list
+        {"type": "image", "url": "image.jpg", "alt": "alt text"}, # str, str, str
+        {"type": "checkbox", "question": "What colors are in the image", "explanation": "All of em", "choices": ["Red", "Green", "Blue"], "answer_idxs": [0, 1, 2]}, # str, str, str, list, list
     ]
 
     html, js, css = main(quiz_array, input("name your quiz"), introduction, completion_js)
