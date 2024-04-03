@@ -13,14 +13,26 @@ def indexRoute():
 
 @app.route("/preview")
 def previewRoute():
-    return render_template('preview.html')
+    elements = json.loads(request.args.get('elements'))
+    title = "My Quiz"
+    end_js = ""
+    introduction = "Welcome to my quiz!"
+    static_url = f"http://{request.host}/static"
+
+    html, js, css = main(elements, title, introduction, end_js, static_url)
+    return render_template('preview.html', html_code=html, js_code=js, css_code=css)
+    
 
 # --- JSON
 @app.route('/api')
 def apiRoute():
-    
     elements = json.loads(request.args.get('elements'))
-    html, js, css = main(elements, "My Quiz", "", f"{request.environ.get('HTTP_ORIGIN', 'http://127.0.0.1:5000')}/static")
+    title = "My Quiz"
+    end_js = ""
+    introduction = "Welcome to my quiz!"
+    static_url = f"http://{request.host}/static"
+
+    html, js, css = main(elements, title, introduction, end_js, static_url)
     return {
         "html": html,
         "js": js,

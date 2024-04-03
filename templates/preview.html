@@ -18,8 +18,14 @@
             overflow: hidden;
         }
     </style>
+    <script>
+        {{ js_code | safe }}
+    </script>
+    <style>
+        {{ css_code | safe }}
+    </style>
 </head>
 <body>
-    
+    {{ html_code | safe }}     
 </body>
 </html>

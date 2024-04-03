@@ -32,7 +32,10 @@ components = [
 # An amazing lesson
 Try out the awesome features around here
 `},
-    { "type": "image", "url": "https://media.istockphoto.com/id/949118068/photo/books.jpg?s=612x612&w=0&k=20&c=1vbRHaA_aOl9tLIy6P2UANqQ27KQ_gSF-BH0sUjQ730=", "alt": "some dumb ass library" },
+    {"type": "image", "url": "https://media.istockphoto.com/id/949118068/photo/books.jpg?s=612x612&w=0&k=20&c=1vbRHaA_aOl9tLIy6P2UANqQ27KQ_gSF-BH0sUjQ730=", "alt": "some dumb ass library"},
+    {"type": "text", "text": "Today is tuesday"},
+    {"type": "radio", "question": "What day is today", "explanation": "It's Tuesday", "choices": ["Tuesday", "Friday", "Saturday"], "answer_idx": 0}, 
+    {"type": "checkbox", "question": "What colors do I like", "explanation": "All of em", "choices": ["Red", "Green", "Blue"], "answer_idxs": [0, 1, 2]},
 ]
 
 // Utility functions
@@ -44,12 +47,14 @@ const isElementLoaded = async element => {
 }; // Wait for an element to load
 
 function updatePage() {
-    let apiEndpoint = new URL(window.location.origin + '/api')
-    // let params = { 'elements': JSON.stringify([{ "type": "text", "text": "wassup kids" }]) };
-    let params = { 'elements': JSON.stringify(components) }; // Pass all components to the API
-    Object.keys(params).forEach(key => apiEndpoint.searchParams.append(key, params[key]))
+    const constructUrl = (subroute) => {
+        let apiEndpoint = new URL(window.location.origin + subroute)
+        let params = { 'elements': JSON.stringify(components) }; // Pass all components to the API
+        Object.keys(params).forEach(key => apiEndpoint.searchParams.append(key, params[key]))
+        return apiEndpoint
+    }
 
-    fetch(apiEndpoint, {headers: {'Content-Type': 'application/json'}})
+    fetch(constructUrl("/api"), {headers: {'Content-Type': 'application/json'}})
     .then(res => res.json())
     .then(data => {
 
@@ -59,8 +64,7 @@ function updatePage() {
         new_button.id = "preview"
         new_button.className = "use__button"
         new_button.addEventListener("click", () => {
-            console.log(apiEndpoint)
-            window.location.href = apiEndpoint
+            window.location.href = constructUrl("/preview")
         })
         document.getElementById("preview").replaceWith(new_button)
 

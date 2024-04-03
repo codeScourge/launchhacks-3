@@ -23,10 +23,11 @@ def create_title(title:str):
     return f"""<h1 id="quiz-title">{title}</h1>"""
 
 def create_text(text:str, revealed:bool):
-    return f"""<p class="quiz_text" {'style="display: flex"' if revealed else ''}>{markdown.markdown(text)}</p>"""
+    # TODO: add markdown (need change in frontend)
+    return f"""<p class="quiz_text" {'style="display: block"' if revealed else ''}>{text}</p>"""
 
 def create_image(url:str, alt:str, revealed:bool):
-    return f"""<img src="{url}" alt="{alt}" {'style="display: flex"' if revealed else ''}>"""
+    return f"""<img class="quiz_img" src="{url}" alt="{alt}" {'style="display: block"' if revealed else ''}>"""
 
 def create_radio(question:str, choices:list, answer_idx:int, explanation:str, quiz_number:int):
     return_obj = {"id": f"quiz_{str(quiz_number)}", "type": "radio", "answer": answer_idx}
@@ -65,7 +66,7 @@ def create_radio(question:str, choices:list, answer_idx:int, explanation:str, qu
 
 
 def create_checkbox(question:str, choices:list, answer_idxs:list, explanation:str, quiz_number:int):
-    return_obj = {"id": "quiz_{quiz_number}", "type": "checkbox", "answer": answer_idxs}
+    return_obj = {"id": f"quiz_{str(quiz_number)}", "type": "checkbox", "answer": answer_idxs}
 
 
     inner_html = ""
@@ -101,14 +102,16 @@ def create_checkbox(question:str, choices:list, answer_idxs:list, explanation:st
 
 
 # --- workflows
-def generate_html(data:list, title:str, static_url:str):
+def generate_html(data:list, title:str, introduction:str, static_url:str):
+    quiz_data = [{"type": "text", "text": introduction}]
+    quiz_data.extend(data)
     inner_html = ""
+    js_array = []
 
-    for i, item in enumerate(data):
+    for i, item in enumerate(quiz_data):
+        print(item)
 
-        # the first one is automatically revealed
-        js_array = []
-
+        # the first static one is automatically revealed
         if item["type"] == "text":
             inner_html += create_text(item["text"], i==0)
 
@@ -124,6 +127,9 @@ def generate_html(data:list, title:str, static_url:str):
             checkbox_html, return_obj = create_checkbox(item["question"], item["choices"], item["answer_idxs"], item["explanation"], i)
             inner_html += checkbox_html
             js_array.append(return_obj)
+
+
+        print(js_array)
 
         
     outer_html = f"""
@@ -149,8 +155,8 @@ def generate_html(data:list, title:str, static_url:str):
 
 
 # --- assembler
-def main(data: list, title:str, completion_js:str, static_url:str):
-    outer_html, js_array = generate_html(data, title, static_url)
+def main(data: list, title:str, introduction:str, completion_js:str, static_url:str):
+    outer_html, js_array = generate_html(data, title, introduction, static_url)
     js = create_js(js_array, completion_js)
 
     return outer_html, js, CSS
@@ -160,6 +166,7 @@ def main(data: list, title:str, completion_js:str, static_url:str):
 # --- main
 if __name__ == "__main__":
     completion_js = "console.log('Hello, World!');"
+    introduction = "Welcome to my quiz!"
     quiz_array = [
         {"type": "text", "text": "Today is tuesday"},    # str, str
         {"type": "image", "url": "image.jpg", "alt": "alt text"}, # str, str, str
@@ -167,7 +174,7 @@ if __name__ == "__main__":
         {"type": "checkbox", "question": "What colors do I like", "explanation": "All of em", "choices": ["Red", "Green", "Blue"], "answer_idxs": [0, 1, 2]}, # str, str, str, list, list
     ]
 
-    html, js, css = main(quiz_array, input("name your quiz"), completion_js)
+    html, js, css = main(quiz_array, input("name your quiz"), introduction, completion_js)
 
     for item in [html, css, js]:
         print(item)
