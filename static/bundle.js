@@ -18,6 +18,7 @@ var updatePage = function() {
     js_string = data.js;
     css_string = data.css;
     html_string = data.html;
+    inner.innerHTML = data.html;
     reattatchListeners();
   });
 };

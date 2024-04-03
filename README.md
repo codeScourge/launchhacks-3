@@ -1,5 +1,8 @@
 # launchhacks-3
 
+### Motivation
+The current trend in UX is gamifying your learning experiences, brilliant doesn't have a revenue of 10.6Million for no reason, they are where my inspiration came from. To allow anyone to build their own quizzes without writing tedios frontend code. 
+
 ### ChatGPT Prompt for generating Quizzes
 ```
 Here you can see an array:     
@@ -13,4 +16,3 @@ This array has 4 different building blocks and can be used to build quizzes on m
 In the text blocks explain a topic. In the radio or checkbox one, ask the user question do further test his understanding. Do you understand?`
 ```
 
-### Actual Execution

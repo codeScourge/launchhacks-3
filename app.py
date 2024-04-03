@@ -22,8 +22,8 @@ def exampleRoute():
     {"type": "radio", "question": "What syntax is used to declare a function in JavaScript?", "explanation": "Function declaration involves the function keyword, followed by a name, followed by parentheses.", "choices": ["Function myFunc(){}", "var myFunc = function(){}", "myFunc() function{}"], "answer_idx": 0},
     {"type": "image", "url": "javascript-event-loop.jpg", "alt": "Illustration of JavaScript Event Loop"},
     {"type": "checkbox", "question": "What are the features of the JavaScript Event Loop?", "explanation": "The Event Loop allows JavaScript to perform non-blocking operations, despite being single-threaded, through callback functions.", "choices": ["Single-threaded", "Asynchronous callbacks", "Multi-threaded"], "answer_idxs": [0, 1]},
-    ]
-    
+]
+
     title = "My Quiz"
     end_js = ""
     introduction = "Welcome to my quiz!"
