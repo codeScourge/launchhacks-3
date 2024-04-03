@@ -9,6 +9,7 @@ js_snippet = document.getElementById('js-snippet'); // Container for the js-snip
 css_snippet = document.getElementById('css-snippet'); // Container for the css-snippet
 html_snippet = document.getElementById('html-snippet'); // Container for the html-snippet
 
+
 let js_string;
 let css_string;
 let html_string;
@@ -31,7 +32,7 @@ components = [
 # An amazing lesson
 Try out the awesome features around here
 `},
-    { "type": "image", "url": "https://via.placeholder.com/500", "alt": "placeholder image" },
+    { "type": "image", "url": "https://media.istockphoto.com/id/949118068/photo/books.jpg?s=612x612&w=0&k=20&c=1vbRHaA_aOl9tLIy6P2UANqQ27KQ_gSF-BH0sUjQ730=", "alt": "some dumb ass library" },
 ]
 
 // Utility functions
@@ -51,15 +52,21 @@ function updatePage() {
     fetch(apiEndpoint, {headers: {'Content-Type': 'application/json'}})
     .then(res => res.json())
     .then(data => {
-        console.log(data)
+
+        // update button to link to the correct preview page
+        const new_button = document.createElement("button")
+        new_button.innerText = "Preview"
+        new_button.id = "preview"
+        new_button.className = "use__button"
+        new_button.addEventListener("click", () => {
+            console.log(apiEndpoint)
+            window.location.href = apiEndpoint
+        })
+        document.getElementById("preview").replaceWith(new_button)
 
         js_string = data.js;
         css_string = data.css;
         html_string = data.html;
-
-        // js_snippet.innerHTML = data.js
-        // css_snippet.innerHTML = data.css
-        // html_snippet.innerHTML = data.html
 
         reattatchListeners()
     })

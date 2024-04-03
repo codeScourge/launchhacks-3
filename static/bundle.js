@@ -4,7 +4,14 @@ var updatePage = function() {
   let params = { elements: JSON.stringify(components) };
   Object.keys(params).forEach((key) => apiEndpoint.searchParams.append(key, params[key]));
   fetch(apiEndpoint, { headers: { "Content-Type": "application/json" } }).then((res) => res.json()).then((data) => {
-    console.log(data);
+    const new_button = document.createElement("button");
+    new_button.innerText = "Preview";
+    new_button.id = "preview";
+    new_button.className = "use__button";
+    new_button.addEventListener("click", () => {
+      console.log(apiEndpoint);
+    });
+    document.getElementById("preview").replaceWith(new_button);
     js_string = data.js;
     css_string = data.css;
     html_string = data.html;
@@ -131,7 +138,7 @@ components = [
 Try out the awesome features around here
 `
   },
-  { type: "image", url: "https://via.placeholder.com/500", alt: "placeholder image" }
+  { type: "image", url: "https://media.istockphoto.com/id/949118068/photo/books.jpg?s=612x612&w=0&k=20&c=1vbRHaA_aOl9tLIy6P2UANqQ27KQ_gSF-BH0sUjQ730=", alt: "some dumb ass library" }
 ];
 var isElementLoaded = async (element) => {
   while (element === null) {

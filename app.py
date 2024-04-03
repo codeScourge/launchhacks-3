@@ -10,6 +10,11 @@ app = Flask(__name__)
 def indexRoute():
     return render_template('index.html')
 
+
+@app.route("/preview")
+def previewRoute():
+    return render_template('preview.html')
+
 # --- JSON
 @app.route('/api')
 def apiRoute():

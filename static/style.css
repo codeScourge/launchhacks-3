@@ -165,8 +165,10 @@ button>img {
 .use {
     margin-top: 1rem;
     display: flex;
+    flex-flow: row;
     align-items: center;
     justify-content: center;
+    gap: 1rem;
 }
 
 .use__button {
@@ -180,4 +182,10 @@ button>img {
     background-color: #41c6ff;
     color: white;
     font-weight: bold;
+
+    cursor: pointer;
+}
+
+.use__button:hover {
+    background-color: rgb(54, 157, 202);
 }
