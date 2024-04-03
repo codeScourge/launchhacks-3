@@ -267,7 +267,7 @@ function editRadio(index) {
         components[index].question = editorQuestion.value
         components[index].explanation = editorExplanation.value
         components[index].choices = editorChoices.value.split('\n')
-        components[index].answer_idx = editorAnswer.value
+        components[index].answer_idx = parseInt(editorAnswer.value)
 
         updatePage()
         editor.replaceChildren() // Clear the editor
