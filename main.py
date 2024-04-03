@@ -23,7 +23,7 @@ def create_title(title:str):
     return f"""<h1 id="quiz-title">{title}</h1>"""
 
 def create_text(text:str, revealed:bool):
-    return f"""<p class="quiz_text" {'style="display: flex"' if revealed else ''}>Today is tuesday</p>"""
+    return f"""<p class="quiz_text" {'style="display: flex"' if revealed else ''}>{text}</p>"""
 
 def create_image(url:str, alt:str, revealed:bool):
     return f"""<img src="{url}" alt="{alt}" {'style="display: flex"' if revealed else ''}>"""
@@ -84,7 +84,7 @@ def create_checkbox(question:str, choices:list, answer_idxs:list, explanation:st
     outer_html = f"""
 
 <div class="quiz_question" id="quiz_{quiz_number}">
-    <h4 class="quiz_question__upper">What colors are in the picture (choose all that apply)</h4>
+    <h4 class="quiz_question__upper">{question} (choose all that apply)</h4>
     <div class="quiz_question__lower">
         {inner_html}
     </div>
@@ -101,7 +101,7 @@ def create_checkbox(question:str, choices:list, answer_idxs:list, explanation:st
 
 
 # --- workflows
-def generate_html(data:list, title:str):
+def generate_html(data:list, title:str, static_url:str):
     inner_html = ""
 
     for i, item in enumerate(data):
@@ -127,11 +127,20 @@ def generate_html(data:list, title:str):
 
         
     outer_html = f"""
+<!-- Quiz HTML -->
 <main id="quiz">
     {create_title(title)}
     <div id="quiz-content">
         {inner_html}
     </div>
+
+    <button id="quiz-button" class="quiz_button">
+        Start Quiz
+    </button>
+
+    <audio src="{static_url}/blob.mp3" id="quiz-audio-blob" class="quiz_audio"></audio>
+    <audio src="{static_url}/error.mp3" id="quiz-audio-error" class="quiz_audio"></audio>
+    <audio src="{static_url}/win.mp3" id="quiz-audio-win" class="quiz_audio"></audio>
 </main>
                  """ 
     
@@ -140,13 +149,15 @@ def generate_html(data:list, title:str):
 
 
 # --- assembler
-def main(data: list, title:str, completion_js:str):
-    outer_html, js_array = generate_html(data, title)
+def main(data: list, title:str, completion_js:str, static_url:str):
+    outer_html, js_array = generate_html(data, title, static_url)
     js = create_js(js_array, completion_js)
     
     for item in [outer_html, js, CSS]:
         print(item)
         print ("\n\n\n########################################\n\n\n")
+
+    return outer_html + js + CSS
     
     
 

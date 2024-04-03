@@ -1,5 +1,5 @@
 CSS = """
-    <-- Quiz CSS -->
+    <!-- Quiz CSS -->
     <style>
         :root {
             --background: #f7f7f8;
@@ -191,7 +191,9 @@ def create_js(array:list, completion_js:str):
     return JS.replace("####--QUIZ_ARRAY--####", array_string).replace("####--QUIT_COMPLETION_JS--####", completion_js)
 
 JS = """
+<!-- QUIZ JS -->
 <script>
+    console.log("Quiz JS is loaded")
     document.addEventListener("DOMContentLoaded", () => {
     let quizContent = document.getElementById('quiz-content');
 
@@ -371,7 +373,7 @@ JS = """
         revealOneAndBuildButton();
     });
     })
-<script>
+</script>
       """
 
 
