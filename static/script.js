@@ -340,7 +340,7 @@ function editCheckbox(index) {
         components[index].question = editorQuestion.value
         components[index].explanation = editorExplanation.value
         components[index].choices = editorChoices.value.split('\n')
-        components[index].answer_idxs = editorAnswer.value.split(',')
+        components[index].answer_idxs = editorAnswer.value.split(',').map(x => parseInt(x))
 
         updatePage()
         editor.replaceChildren() // Clear the editor
