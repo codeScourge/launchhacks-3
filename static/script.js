@@ -500,7 +500,6 @@ function reattatchListeners() {
 
         dragTarget.ondragover = (e) => {
             e.preventDefault()
-            dragTarget.innerHTML = "OOOGA"
         }
         dragTarget.ondragleave = (e) => {
             dragTarget.innerHTML = ""
