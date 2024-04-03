@@ -15,7 +15,7 @@ let css_string;
 let html_string;
 
 document.getElementById("integrate").addEventListener("click", () => {
-    for (const {type, text, fname} of [{"type": "text/javascript", "text": js_string, "fname": "quiz.js"}, {"type": "text/css", "text": css_string, "fname": "quiz.css"}, {"type": "text/html", "text": html_string, "fname": "quiz.html"}]) {
+    for (const { type, text, fname } of [{ "type": "text/javascript", "text": js_string, "fname": "quiz.js" }, { "type": "text/css", "text": css_string, "fname": "quiz.css" }, { "type": "text/html", "text": html_string, "fname": "quiz.html" }]) {
         const blob = new Blob([text], { type: type });
         const blobUrl = URL.createObjectURL(blob);
         const downloadLink = document.createElement('a');
@@ -26,18 +26,25 @@ document.getElementById("integrate").addEventListener("click", () => {
     //document.getElementById("banner").style.display = "flex";
 })
 
+// Load components from local storage
+const storedComponents = localStorage.getItem('components')
+if (storedComponents) {
+    components = JSON.parse(storedComponents)
+}
+else {
 components = [
-    {
-        "type": "text", "text": `
-# An amazing lesson
-Try out the awesome features around here
-`},
-{"type": "checkbox", "question": "What colors do I like", "explanation": "All of em", "choices": ["Red", "Green", "Blue"], "answer_idxs": [0, 1, 2]},
-    {"type": "image", "url": "https://media.istockphoto.com/id/949118068/photo/books.jpg?s=612x612&w=0&k=20&c=1vbRHaA_aOl9tLIy6P2UANqQ27KQ_gSF-BH0sUjQ730=", "alt": "some dumb ass library"},
-    {"type": "text", "text": "Today is tuesday"},
-    {"type": "radio", "question": "What day is today", "explanation": "It's Tuesday", "choices": ["Tuesday", "Friday", "Saturday"], "answer_idx": 0}, 
-    
+    //     {
+    //         "type": "text", "text": `
+    // # An amazing lesson
+    // Try out the awesome features around here
+    // `},
+    // {"type": "checkbox", "question": "What colors do I like", "explanation": "All of em", "choices": ["Red", "Green", "Blue"], "answer_idxs": [0, 1, 2]},
+    //     {"type": "image", "url": "https://media.istockphoto.com/id/949118068/photo/books.jpg?s=612x612&w=0&k=20&c=1vbRHaA_aOl9tLIy6P2UANqQ27KQ_gSF-BH0sUjQ730=", "alt": "some dumb ass library"},
+    //     {"type": "text", "text": "Today is tuesday"},
+    //     {"type": "radio", "question": "What day is today", "explanation": "It's Tuesday", "choices": ["Tuesday", "Friday", "Saturday"], "answer_idx": 0}, 
+
 ]
+}
 
 // Utility functions
 const isElementLoaded = async element => {
@@ -55,26 +62,26 @@ function updatePage() {
         return apiEndpoint
     }
 
-    fetch(constructUrl("/api"), {headers: {'Content-Type': 'application/json'}})
-    .then(res => res.json())
-    .then(data => {
+    fetch(constructUrl("/api"), { headers: { 'Content-Type': 'application/json' } })
+        .then(res => res.json())
+        .then(data => {
 
-        // update button to link to the correct preview page
-        const new_button = document.createElement("button")
-        new_button.innerText = "Preview"
-        new_button.id = "preview"
-        new_button.className = "use__button"
-        new_button.addEventListener("click", () => {
-            window.location.href = constructUrl("/preview")
+            // update button to link to the correct preview page
+            const new_button = document.createElement("button")
+            new_button.innerText = "Preview"
+            new_button.id = "preview"
+            new_button.className = "use__button"
+            new_button.addEventListener("click", () => {
+                window.location.href = constructUrl("/preview")
+            })
+            document.getElementById("preview").replaceWith(new_button)
+
+            js_string = data.js;
+            css_string = data.css;
+            html_string = data.html;
+
+            reattatchListeners()
         })
-        document.getElementById("preview").replaceWith(new_button)
-
-        js_string = data.js;
-        css_string = data.css;
-        html_string = data.html;
-
-        reattatchListeners()
-    })
 }
 
 // Toolbar
@@ -195,26 +202,50 @@ function editComponent(index) {
 }
 // Component editor
 function reattatchListeners() {
+    // Builds the editor and click listeners
+    // OLD ----
     // Wait for inner to load before reattaching listeners
-    isElementLoaded(inner).then(() => {
-        console.log('Reattaching listeners')
+    // isElementLoaded(inner).then(() => {
+    //     console.log('Reattaching listeners')
 
-        // Reattach listeners to the components
-        let documentComponents = document.getElementsByClassName('component')
+    //     // Reattach listeners to the components
+    //     let documentComponents = document.getElementsByClassName('component')
 
-        for (let i = 0; i < documentComponents.length; i++) {
-            console.log('Adding listener to component ' + i)
-            // Wait for element to load
-            isElementLoaded(documentComponents[i]).then(() => {
-                documentComponents[i].addEventListener('click', function () {
-                    let index = i
-                    editComponent(index)
-                })
+    //     for (let i = 0; i < documentComponents.length; i++) {
+    //         console.log('Adding listener to component ' + i)
+    //         // Wait for element to load
+    //         isElementLoaded(documentComponents[i]).then(() => {
+    //             documentComponents[i].addEventListener('click', function () {
+    //                 let index = i
+    //                 editComponent(index)
+    //             })
+    //         })
+    //     }
+    // }
+    // )
+
+    // NEW ----
+    // Save the components to local storage
+    localStorage.setItem('components', JSON.stringify(components))
+    // inner.appendChild(document.createTextNode('hi there'))
+    // inner.style.backgroundColor = 'red'
+    inner.innerHTML = ''
+    console.log('Reattaching listeners')
+    for (let i = 0; i < components.length; i++) {
+        component = components[i]
+        console.log(component.type)
+        // Add to DOM
+        if (component.type == 'text') {
+            componentElement = document.createElement('div')
+            componentElement.addEventListener('click', function () {
+                editComponent(i)
             })
+            componentElement.classList.add('component')
+            componentElement.classList.add('text')
+            componentElement.appendChild(document.createTextNode(component.text))
+            inner.appendChild(componentElement)
         }
     }
-    )
 }
-
 
 updatePage()
