@@ -1,0 +1,17 @@
+{
+  "name": "launchhacks-3",
+  "scripts": {
+    "build": "bun build ./static/script.js --outfile=./static/bundle.js"
+  },
+  "module": "index.ts",
+  "type": "module",
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "dependencies": {
+    "highlight.js": "^11.9.0"
+  }
+}

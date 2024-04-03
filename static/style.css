@@ -135,3 +135,27 @@ button {
 button>img {
     height: 1.25rem;
 }
+
+
+.banner {
+    flex-flow: column;
+    align-items: center;
+    justify-content: center;
+
+    gap: 2rem;
+    overflow: scroll;
+
+    width: min("800px", "80%");
+    height: 60vh;
+
+    z-index: 999999;
+
+    border: 2px solid black;
+    border-radius: 10px;
+
+
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}

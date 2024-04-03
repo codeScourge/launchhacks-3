@@ -1,3 +1,5 @@
+import hljs from 'highlight.js'; // TODO: only import needed languages not all
+
 text = document.getElementById('text'); // Button for creating text component
 image = document.getElementById('image'); // Button for creating image component
 question = document.getElementById('question'); // Button for creating question component
@@ -5,6 +7,13 @@ question = document.getElementById('question'); // Button for creating question 
 inner = document.getElementById('inner'); // Container for components
 editor = document.getElementById('editor'); // Container for editing components
 
+js_snippet = document.getElementById('js-snippet'); // Container for the js-snippet
+css_snippet = document.getElementById('css-snippet'); // Container for the css-snippet
+html_snippet = document.getElementById('html-snippet'); // Container for the html-snippet
+
+document.getElementById("integrate").addEventListener("click", () => {
+    document.getElementById("banner").style.display = "flex";
+})
 
 components = [
     {
@@ -44,6 +53,23 @@ function updatePage() {
         })
         old_button.replaceWith(new_button)
 
+
+        js_snippet.innerHTML = hljs.highlight(
+            data.js,
+            { language: 'js' }
+        ).value
+
+
+        css_snippet.innerHTML = hljs.highlight(
+            data.css,
+            { language: 'css' }
+        ).value
+
+
+        html_snippet.innerHTML = hljs.highlight(
+            data.html,
+            { language: 'html' }
+        ).value
 
         // normally append css and html
         //inner.innerHTML = data.html + data.css
