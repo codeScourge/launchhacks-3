@@ -110,7 +110,7 @@ def generate_html(data:list, title:str, introduction:str, goodbye:str, static_ur
     js_array = []
 
     for i, item in enumerate(quiz_data):
-        print(item)
+        #print(item)
 
         # the first static one is automatically revealed
         if item["type"] == "text":
@@ -130,7 +130,7 @@ def generate_html(data:list, title:str, introduction:str, goodbye:str, static_ur
             js_array.append(return_obj)
 
 
-        print(js_array)
+        #print(js_array)
 
         
     outer_html = f"""

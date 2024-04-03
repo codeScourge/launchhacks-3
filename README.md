@@ -9,8 +9,12 @@ The two main objectives were:
 1. build a backend tool taking an array in a specific format and spit out the corresponding CSS, HTML, and JS files
 2. build a frontend to let a user easily build these array in a GUI and receive this files
 
+### techstack
+Since we both are 
 
 ### ChatGPT Prompt for generating Quizzes
+Obv
+
 ```
 Here you can see an array:     
 quiz_array = [
