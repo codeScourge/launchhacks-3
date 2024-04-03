@@ -495,7 +495,7 @@ function reattatchListeners() {
 
         let dragTarget = document.createElement('div')
         dragTarget.classList.add('drag-target')
-        dragTarget.style.height = '50px'
+        dragTarget.style.height = '20px'
         dragTarget.id = "drag-target-" + i
 
         dragTarget.ondragover = (e) => {
@@ -511,7 +511,7 @@ function reattatchListeners() {
             console.log(data)
             let draggedComponent = components[data]
             components.splice(data, 1)
-            components.splice(i, 0, draggedComponent)
+            components.splice(i+1, 0, draggedComponent)
             updatePage()
 
         }
