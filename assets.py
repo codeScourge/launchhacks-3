@@ -187,6 +187,7 @@ def create_js(array:list, completion_js:str):
     return JS.replace("####--QUIZ_ARRAY--####", array_string).replace("####--QUIT_COMPLETION_JS--####", completion_js)
 
 JS = """
+document.addEventListener("DOMContentLoaded", () => {
     console.log("Quiz JS is loaded");
     let quizContent = document.getElementById('quiz-content');
 
@@ -365,6 +366,7 @@ JS = """
         //console.log("Next event is triggered");
         revealOneAndBuildButton();
     });
+});
       """
 
 

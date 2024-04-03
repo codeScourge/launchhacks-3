@@ -1,5 +1,3 @@
-import hljs from 'highlight.js'; // TODO: only import needed languages not all
-
 text = document.getElementById('text'); // Button for creating text component
 image = document.getElementById('image'); // Button for creating image component
 question = document.getElementById('question'); // Button for creating question component
@@ -11,8 +9,20 @@ js_snippet = document.getElementById('js-snippet'); // Container for the js-snip
 css_snippet = document.getElementById('css-snippet'); // Container for the css-snippet
 html_snippet = document.getElementById('html-snippet'); // Container for the html-snippet
 
+let js_string;
+let css_string;
+let html_string;
+
 document.getElementById("integrate").addEventListener("click", () => {
-    document.getElementById("banner").style.display = "flex";
+    for (const {type, text, fname} of [{"type": "text/javascript", "text": js_string, "fname": "quiz.js"}, {"type": "text/css", "text": css_string, "fname": "quiz.css"}, {"type": "text/html", "text": html_string, "fname": "quiz.html"}]) {
+        const blob = new Blob([text], { type: type });
+        const blobUrl = URL.createObjectURL(blob);
+        const downloadLink = document.createElement('a');
+        downloadLink.href = blobUrl;
+        downloadLink.download = fname;
+        downloadLink.click();
+    }
+    //document.getElementById("banner").style.display = "flex";
 })
 
 components = [
@@ -43,57 +53,14 @@ function updatePage() {
     .then(data => {
         console.log(data)
 
-        const old_button = document.getElementById('preview')
-        const new_button = document.createElement('button')
-        new_button.id = 'preview'
-        new_button.innerText = 'Preview'
-        new_button.className = "use__button"
-        new_button.addEventListener('click', () => {
-            window.location = apiEndpoint
-        })
-        old_button.replaceWith(new_button)
+        js_string = data.js;
+        css_string = data.css;
+        html_string = data.html;
 
+        // js_snippet.innerHTML = data.js
+        // css_snippet.innerHTML = data.css
+        // html_snippet.innerHTML = data.html
 
-        js_snippet.innerHTML = hljs.highlight(
-            data.js,
-            { language: 'js' }
-        ).value
-
-
-        css_snippet.innerHTML = hljs.highlight(
-            data.css,
-            { language: 'css' }
-        ).value
-
-
-        html_snippet.innerHTML = hljs.highlight(
-            data.html,
-            { language: 'html' }
-        ).value
-
-        // normally append css and html
-        //inner.innerHTML = data.html + data.css
-
-        // workaround to make script tag execute
-        // const script_id = "quiz-script";
-
-        // let old_script = document.getElementById(script_id);
-        // if (old_script) {
-        //     old_script.remove();
-        // }
-
-
-        // let script = document.createElement('script');
-        // script.id = script_id;
-        // script.textContent = data.js;
-        // document.body.appendChild(script);
-
-
-        // This is the js-snippet the USER will see
-        //const user_js = 'document.addEventListener("DOMContentLoaded", () => {' + data.js + '});'
-
-
-        // Will be called when DOM is loaded
         reattatchListeners()
     })
 }

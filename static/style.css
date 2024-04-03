@@ -18,6 +18,7 @@ body {
     width: 100%;
     text-align: center;
 }
+
 .create-toolbar {
     background-color: #e0e0e060;
     display: inline-flex;
@@ -30,6 +31,7 @@ body {
 
     border-radius: 1000rem;
 }
+
 .create-action {
     /* background-color: red; */
 
@@ -158,4 +160,24 @@ button>img {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+}
+
+.use {
+    margin-top: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.use__button {
+    padding: 0.25rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+
+    border: 2px solid white;
+    border-radius: 5px;
+
+    background-color: #41c6ff;
+    color: white;
+    font-weight: bold;
 }

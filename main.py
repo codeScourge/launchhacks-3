@@ -1,5 +1,5 @@
 from assets import create_js, CSS
-
+import markdown
 
 # The first component HAS to be a static introducing this quiz
 # The last should also be a static
@@ -23,7 +23,7 @@ def create_title(title:str):
     return f"""<h1 id="quiz-title">{title}</h1>"""
 
 def create_text(text:str, revealed:bool):
-    return f"""<p class="quiz_text" {'style="display: flex"' if revealed else ''}>{text}</p>"""
+    return f"""<p class="quiz_text" {'style="display: flex"' if revealed else ''}>{markdown.markdown(text)}</p>"""
 
 def create_image(url:str, alt:str, revealed:bool):
     return f"""<img src="{url}" alt="{alt}" {'style="display: flex"' if revealed else ''}>"""
@@ -152,10 +152,6 @@ def generate_html(data:list, title:str, static_url:str):
 def main(data: list, title:str, completion_js:str, static_url:str):
     outer_html, js_array = generate_html(data, title, static_url)
     js = create_js(js_array, completion_js)
-    
-    # for item in [outer_html, js, CSS]:
-    #     print(item)
-    #     print ("\n\n\n########################################\n\n\n")
 
     return outer_html, js, CSS
     
@@ -170,4 +166,9 @@ if __name__ == "__main__":
         {"type": "radio", "question": "What day is today", "explanation": "It's Tuesday", "choices": ["Tuesday", "Friday", "Saturday"], "answer_idx": 0}, # str, str, str, list, int
         {"type": "checkbox", "question": "What colors do I like", "explanation": "All of em", "choices": ["Red", "Green", "Blue"], "answer_idxs": [0, 1, 2]}, # str, str, str, list, list
     ]
-    main(quiz_array, "My lovely quiz", completion_js)
+
+    html, js, css = main(quiz_array, input("name your quiz"), completion_js)
+
+    for item in [html, css, js]:
+        print(item)
+        print ("\n\n\n########################################\n\n\n")
