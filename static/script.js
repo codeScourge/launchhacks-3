@@ -32,18 +32,17 @@ if (storedComponents) {
     components = JSON.parse(storedComponents)
 }
 else {
-components = [
-    //     {
-    //         "type": "text", "text": `
-    // # An amazing lesson
-    // Try out the awesome features around here
-    // `},
-    // {"type": "checkbox", "question": "What colors do I like", "explanation": "All of em", "choices": ["Red", "Green", "Blue"], "answer_idxs": [0, 1, 2]},
-    //     {"type": "image", "url": "https://media.istockphoto.com/id/949118068/photo/books.jpg?s=612x612&w=0&k=20&c=1vbRHaA_aOl9tLIy6P2UANqQ27KQ_gSF-BH0sUjQ730=", "alt": "some dumb ass library"},
-    //     {"type": "text", "text": "Today is tuesday"},
-    //     {"type": "radio", "question": "What day is today", "explanation": "It's Tuesday", "choices": ["Tuesday", "Friday", "Saturday"], "answer_idx": 0}, 
-
-]
+    components = [
+        {
+            "type": "text", "text": `
+        # An amazing lesson
+        Try out the awesome features around here
+        `},
+        { "type": "checkbox", "question": "What colors do I like", "explanation": "All of em", "choices": ["Red", "Green", "Blue"], "answer_idxs": [0, 1, 2] },
+        { "type": "image", "url": "https://media.istockphoto.com/id/949118068/photo/books.jpg?s=612x612&w=0&k=20&c=1vbRHaA_aOl9tLIy6P2UANqQ27KQ_gSF-BH0sUjQ730=", "alt": "some dumb ass library" },
+        { "type": "text", "text": "Today is tuesday" },
+        { "type": "radio", "question": "What day is today", "explanation": "It's Tuesday", "choices": ["Tuesday", "Friday", "Saturday"], "answer_idx": 0 },
+    ]
 }
 
 // Utility functions
@@ -237,14 +236,55 @@ function reattatchListeners() {
         // Add to DOM
         if (component.type == 'text') {
             componentElement = document.createElement('div')
-            componentElement.addEventListener('click', function () {
-                editComponent(i)
-            })
+
             componentElement.classList.add('component')
             componentElement.classList.add('text')
             componentElement.appendChild(document.createTextNode(component.text))
             inner.appendChild(componentElement)
         }
+        if (component.type == 'image') {
+            componentElement = document.createElement('div')
+            imgElement = document.createElement('img')
+            imgElement.src = component.url
+            imgElement.alt = component.alt
+            componentElement.appendChild(imgElement)
+
+            componentElement.classList.add('component')
+            componentElement.classList.add('image')
+            inner.appendChild(componentElement)
+        }
+        if (component.type == 'radio') {
+            // Single-choice quiz
+            componentElement = document.createElement('div')
+            componentElement.classList.add('component')
+            componentElement.classList.add('radio')
+            componentElement.appendChild(document.createTextNode(component.question))
+
+            for (let j = 0; j < component.choices.length; j++) {
+                choiceSpan = document.createElement('span')
+
+                choice = document.createElement('input')
+                choice.classList.add('choice')
+                choice.id = 'choice' + j + '_' + i
+                choice.type = 'radio'
+                choice.name = i.toString()
+
+                label = document.createElement('label')
+                label.for = 'choice' + j + '_' + i
+                label.appendChild(document.createTextNode(component.choices[j]))
+                label.appendChild(choice)
+
+                choiceSpan.appendChild(choice)
+                choiceSpan.appendChild(label)
+                componentElement.appendChild(choiceSpan)
+
+            }
+            inner.appendChild(componentElement)
+        }
+
+        componentElement.addEventListener('click', function () {
+            editComponent(i)
+        })
     }
 }
 

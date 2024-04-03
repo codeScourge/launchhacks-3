@@ -4,11 +4,8 @@ body {
     height: 100vh;
     width: 100vw;
     font-family: 'Inter', sans-serif;
-    overflow: hidden;
 }
 
-#inner {
-}
 
 .create {
     width: 100%;
@@ -65,6 +62,12 @@ body {
     background-color: #e0e0e0;
 }
 
+.radio {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+}
 
 /* Editor */
 #editor {
@@ -103,13 +106,14 @@ button {
     align-items: center;
     margin-bottom: 2rem;
 }
+
 .done {
     width: 2rem;
     height: 2rem;
     border: none;
     border-radius: 1rem;
 
-    font:inherit;
+    font: inherit;
     margin-right: 1rem;
     margin-left: 1rem;
 
@@ -117,13 +121,14 @@ button {
 
     float: right;
 }
+
 .delete {
     width: 2rem;
     height: 2rem;
     border: none;
     border-radius: 1rem;
 
-    font:inherit;
+    font: inherit;
     margin-right: 1rem;
     margin-left: 1rem;
 
