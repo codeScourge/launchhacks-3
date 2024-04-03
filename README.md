@@ -1,7 +1,14 @@
 # launchhacks-3
 
 ### Motivation
-The current trend in UX is gamifying your learning experiences, brilliant doesn't have a revenue of 10.6Million for no reason, they are where my inspiration came from. To allow anyone to build their own quizzes without writing tedios frontend code. 
+The current trend in UX is gamifying your learning experiences, brilliant doesn't have a revenue of 10.6Million for no reason, they are where our inspiration came from. To allow anyone to build their own quizzes without writing tedios frontend code. 
+
+
+### Plan and Execution
+The two main objectives were: 
+1. build a backend tool taking an array in a specific format and spit out the corresponding CSS, HTML, and JS files
+2. build a frontend to let a user easily build these array in a GUI and receive this files
+
 
 ### ChatGPT Prompt for generating Quizzes
 ```

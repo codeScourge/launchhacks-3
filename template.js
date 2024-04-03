@@ -63,9 +63,9 @@ document.addEventListener("DOMContentLoaded", () => {
         let errors = 0;
         let corrects = 0;
         let i = 0;
-
         for (let x=0 ; x < children.length; x++) {
             const child = children[x];
+            console.log(child)
             if (child.tagName === "INPUT") {
                 child.disabled = true;
                 if ((correctIdxs.includes(i) && child.checked)) {
