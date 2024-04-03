@@ -188,6 +188,77 @@ function editImage(index) {
 
 }
 
+function editRadio(index) {
+    editor.replaceChildren() // Clear the editor
+
+    if (index == null) {
+        // Create a new text component
+        components.push({ "type": "image", "url": "https://via.placeholder.com/500", "alt": "placeholder image" })
+        index = components.length - 1
+    }
+
+    editor.style.display = 'block'
+
+
+    let component = components[index]
+
+    // { "type": "radio", "question": "What day is today", "explanation": "It's Tuesday", "choices": ["Tuesday", "Friday", "Saturday"], "answer_idx": 0 },
+    editorQuestion = document.createElement('input')
+    editorQuestion.placeholder = 'Question'
+    editorQuestion.value = component.question
+    
+    editorExplanation = document.createElement('input')
+    editorExplanation.placeholder = 'Explanation'
+    editorExplanation.value = component.explanation
+
+    editorChoices = document.createElement('textarea')
+    editorChoices.placeholder = 'Choices'
+    editorChoices.value = component.choices.join('\n')
+
+    editorAnswer = document.createElement('input')
+    editorAnswer.placeholder = 'Answer Index'
+    editorAnswer.value = component.answer_idx
+
+    editor.appendChild(editorQuestion)
+    editor.appendChild(editorExplanation)
+    editor.appendChild(editorChoices)
+    editor.appendChild(editorAnswer)
+
+
+    deleteButton = document.createElement('button')
+    deleteButton.innerHTML = 'Delete'
+    deleteButton.addEventListener('click', function () {
+        components.splice(index, 1)
+        updatePage()
+        editor.replaceChildren() // Clear the editor
+        editor.style.display = 'none'
+    })
+
+
+    doneButton = document.createElement('button')
+    doneButton.innerHTML = 'Done'
+
+    doneButton.addEventListener('click', function () {
+        // components[index].url = editorUrl.value // Transfer new text to the component
+        // components[index].alt = altText.value
+        components[index].question = editorQuestion.value
+        components[index].explanation = editorExplanation.value
+        components[index].choices = editorChoices.value.split('\n')
+        components[index].answer_idx = editorAnswer.value
+        
+        updatePage()
+        editor.replaceChildren() // Clear the editor
+        editor.style.display = 'none'
+
+    })
+
+
+    editor.appendChild(doneButton)
+    editor.appendChild(deleteButton)
+
+}
+
+
 function editComponent(index) {
     let component = components[index]
     if (component.type == 'text') {
@@ -197,6 +268,10 @@ function editComponent(index) {
     else if (component.type == 'image') {
         // Open the image editor
         editImage(index)
+    }
+
+    else if (component.type == 'radio') {
+        editRadio(index)
     }
 }
 // Component editor
