@@ -69,6 +69,14 @@ body {
     align-items: flex-start;
 }
 
+
+.checkbox {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+}
+
 /* Editor */
 #editor {
     display: none;

@@ -206,7 +206,7 @@ function editRadio(index) {
     editorQuestion = document.createElement('input')
     editorQuestion.placeholder = 'Question'
     editorQuestion.value = component.question
-    
+
     editorExplanation = document.createElement('input')
     editorExplanation.placeholder = 'Explanation'
     editorExplanation.value = component.explanation
@@ -245,7 +245,7 @@ function editRadio(index) {
         components[index].explanation = editorExplanation.value
         components[index].choices = editorChoices.value.split('\n')
         components[index].answer_idx = editorAnswer.value
-        
+
         updatePage()
         editor.replaceChildren() // Clear the editor
         editor.style.display = 'none'
@@ -258,6 +258,74 @@ function editRadio(index) {
 
 }
 
+function editCheckbox(index) {
+    editor.replaceChildren() // Clear the editor
+
+    if (index == null) {
+        // Create a new text component
+        components.push({ "type": "image", "url": "https://via.placeholder.com/500", "alt": "placeholder image" })
+        index = components.length - 1
+    }
+
+    editor.style.display = 'block'
+
+
+    let component = components[index]
+
+    editorQuestion = document.createElement('input')
+    editorQuestion.placeholder = 'Question'
+    editorQuestion.value = component.question
+
+    editorExplanation = document.createElement('input')
+    editorExplanation.placeholder = 'Explanation'
+    editorExplanation.value = component.explanation
+
+    editorChoices = document.createElement('textarea')
+    editorChoices.placeholder = 'Choices'
+    editorChoices.value = component.choices.join('\n')
+
+    editorAnswer = document.createElement('input')
+    editorAnswer.placeholder = 'Answer Indices'
+    editorAnswer.value = component.answer_idxs.join(',')
+
+    editor.appendChild(editorQuestion)
+    editor.appendChild(editorExplanation)
+    editor.appendChild(editorChoices)
+    editor.appendChild(editorAnswer)
+
+
+    deleteButton = document.createElement('button')
+    deleteButton.innerHTML = 'Delete'
+    deleteButton.addEventListener('click', function () {
+        components.splice(index, 1)
+        updatePage()
+        editor.replaceChildren() // Clear the editor
+        editor.style.display = 'none'
+    })
+
+
+    doneButton = document.createElement('button')
+    doneButton.innerHTML = 'Done'
+
+    doneButton.addEventListener('click', function () {
+        // components[index].url = editorUrl.value // Transfer new text to the component
+        // components[index].alt = altText.value
+        components[index].question = editorQuestion.value
+        components[index].explanation = editorExplanation.value
+        components[index].choices = editorChoices.value.split('\n')
+        components[index].answer_idxs = editorAnswer.value.split(',')
+
+        updatePage()
+        editor.replaceChildren() // Clear the editor
+        editor.style.display = 'none'
+
+    })
+
+
+    editor.appendChild(doneButton)
+    editor.appendChild(deleteButton)
+
+}
 
 function editComponent(index) {
     let component = components[index]
@@ -272,6 +340,9 @@ function editComponent(index) {
 
     else if (component.type == 'radio') {
         editRadio(index)
+    }
+    else if (component.type == 'checkbox') {
+        editCheckbox(index)
     }
 }
 // Component editor
@@ -343,6 +414,33 @@ function reattatchListeners() {
                 choice.id = 'choice' + j + '_' + i
                 choice.type = 'radio'
                 choice.name = i.toString()
+
+                label = document.createElement('label')
+                label.for = 'choice' + j + '_' + i
+                label.appendChild(document.createTextNode(component.choices[j]))
+                label.appendChild(choice)
+
+                choiceSpan.appendChild(choice)
+                choiceSpan.appendChild(label)
+                componentElement.appendChild(choiceSpan)
+
+            }
+            inner.appendChild(componentElement)
+        }
+        if (component.type == 'checkbox') {
+            componentElement = document.createElement('div')
+            componentElement.classList.add('component')
+            componentElement.classList.add('checkbox')
+            componentElement.appendChild(document.createTextNode(component.question))
+
+            for (let j = 0; j < component.choices.length; j++) {
+                choiceSpan = document.createElement('span')
+
+                choice = document.createElement('input')
+                choice.classList.add('choice')
+                choice.id = 'choice' + j + '_' + i
+                choice.type = 'checkbox'
+                // choice.name = i.toString()
 
                 label = document.createElement('label')
                 label.for = 'choice' + j + '_' + i
