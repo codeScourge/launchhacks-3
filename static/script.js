@@ -1,10 +1,10 @@
 text = document.getElementById('text'); // Button for creating text component
 image = document.getElementById('image'); // Button for creating image component
-quiz = document.getElementById('quiz'); // Button for creating quiz component
+question = document.getElementById('question'); // Button for creating question component
 
 inner = document.getElementById('inner'); // Container for components
-
 editor = document.getElementById('editor'); // Container for editing components
+
 
 components = [
     {
@@ -27,18 +27,49 @@ function updatePage() {
     let apiEndpoint = new URL(window.location.origin + '/api')
     // let params = { 'elements': JSON.stringify([{ "type": "text", "text": "wassup kids" }]) };
     let params = { 'elements': JSON.stringify(components) }; // Pass all components to the API
-
     Object.keys(params).forEach(key => apiEndpoint.searchParams.append(key, params[key]))
 
-    let response;
-    fetch(apiEndpoint).then(res => res.text().then(text => {
-        response = text
-        // console.log(response)
-        inner.innerHTML = response
+    fetch(apiEndpoint, {headers: {'Content-Type': 'application/json'}})
+    .then(res => res.json())
+    .then(data => {
+        console.log(data)
+
+        const old_button = document.getElementById('preview')
+        const new_button = document.createElement('button')
+        new_button.id = 'preview'
+        new_button.innerText = 'Preview'
+        new_button.className = "use__button"
+        new_button.addEventListener('click', () => {
+            window.location = apiEndpoint
+        })
+        old_button.replaceWith(new_button)
+
+
+        // normally append css and html
+        //inner.innerHTML = data.html + data.css
+
+        // workaround to make script tag execute
+        // const script_id = "quiz-script";
+
+        // let old_script = document.getElementById(script_id);
+        // if (old_script) {
+        //     old_script.remove();
+        // }
+
+
+        // let script = document.createElement('script');
+        // script.id = script_id;
+        // script.textContent = data.js;
+        // document.body.appendChild(script);
+
+
+        // This is the js-snippet the USER will see
+        //const user_js = 'document.addEventListener("DOMContentLoaded", () => {' + data.js + '});'
+
 
         // Will be called when DOM is loaded
         reattatchListeners()
-    }))
+    })
 }
 
 // Toolbar

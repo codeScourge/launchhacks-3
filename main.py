@@ -153,11 +153,11 @@ def main(data: list, title:str, completion_js:str, static_url:str):
     outer_html, js_array = generate_html(data, title, static_url)
     js = create_js(js_array, completion_js)
     
-    for item in [outer_html, js, CSS]:
-        print(item)
-        print ("\n\n\n########################################\n\n\n")
+    # for item in [outer_html, js, CSS]:
+    #     print(item)
+    #     print ("\n\n\n########################################\n\n\n")
 
-    return outer_html + js + CSS
+    return outer_html, js, CSS
     
     
 

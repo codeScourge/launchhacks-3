@@ -1,187 +1,183 @@
 CSS = """
-    <!-- Quiz CSS -->
-    <style>
-        :root {
-            --background: #f7f7f8;
-            --selected_background: #d3d0d0;
-            --accent: #818386;
+:root {
+    --background: #f7f7f8;
+    --selected_background: #d3d0d0;
+    --accent: #818386;
 
-            color: #000000;
-            font-family: "Soleil",Arial,sans-serif;
-            font-size: 16px;
-            line-height: 1.6rem;
-        }
+    color: #000000;
+    font-family: "Soleil",Arial,sans-serif;
+    font-size: 16px;
+    line-height: 1.6rem;
+}
 
-        /* this is the main */
-        #quiz { 
-            width: min(600px, 50%);
-            height: 100%;
+/* this is the main */
+#quiz { 
+    width: min(600px, 50%);
+    height: 100%;
 
-            display: flex;
-            flex-flow: column;
-            align-items: center;
-            justify-content: flex-start;
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    justify-content: flex-start;
 
-            overflow-x: hidden;
-            overflow-y: scroll;
+    overflow-x: hidden;
+    overflow-y: scroll;
 
-            padding-top: 1rem;
-            padding-bottom: 1rem;
-            box-sizing: border-box;
-        }
-        #quiz-content {
-            width: 100%;
-            display: flex;
-            flex-flow: column;
-            align-items: center;
-            justify-content: flex-start;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    box-sizing: border-box;
+}
+#quiz-content {
+    width: 100%;
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    justify-content: flex-start;
 
-            gap: 4rem;
+    gap: 4rem;
 
-            overflow-y:scroll;
-            overflow-x: hidden;
-        }
+    overflow-y:scroll;
+    overflow-x: hidden;
+}
 
-        #quiz-content > * {
-            display: none;
-            width: 100%;
-        }
+#quiz-content > * {
+    display: none;
+    width: 100%;
+}
 
-        /* images */
-        .quiz_img {
-            width: 100%;
-            height: auto;
-        }
+/* images */
+.quiz_img {
+    width: 100%;
+    height: auto;
+}
 
-        /* quiz questions */
-        .quiz_question {
-            width: 80% !important;
+/* quiz questions */
+.quiz_question {
+    width: 80% !important;
 
-            background-color: var(--background);
+    background-color: var(--background);
 
-            display: flex;
-            flex-flow: column;
-            align-items: center;
-            justify-content: space-between;
-            text-align: left;
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    justify-content: space-between;
+    text-align: left;
 
-            gap: 1rem;
-            padding: 1rem;
-            border-radius: 10px;
-        }
+    gap: 1rem;
+    padding: 1rem;
+    border-radius: 10px;
+}
 
-        .quiz_question__upper {
-            font-weight: bold;
-        }
+.quiz_question__upper {
+    font-weight: bold;
+}
 
-        .quiz_question__lower {
-            width: 100%;
+.quiz_question__lower {
+    width: 100%;
 
-            display: flex;
-            flex-flow: column;
-            align-items: flex-start;
-            justify-content: space-between;
+    display: flex;
+    flex-flow: column;
+    align-items: flex-start;
+    justify-content: space-between;
 
-            gap: 0.5rem;
-        }
+    gap: 0.5rem;
+}
 
-        /* buttons styling */
-        .quiz_question__lower input {
-            display: none;
-        }
+/* buttons styling */
+.quiz_question__lower input {
+    display: none;
+}
 
-        .quiz_question__lower input + label { /* this targets the next sibling label */
-            width: 100%;
+.quiz_question__lower input + label { /* this targets the next sibling label */
+    width: 100%;
 
-            padding: 0.5rem;
-            padding-left: 1rem;
-            padding-right: 1rem;
+    padding: 0.5rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
 
-            box-sizing: border-box;
+    box-sizing: border-box;
 
-            border: 2px solid var(--accent);
-            border-radius: 5px;
+    border: 2px solid var(--accent);
+    border-radius: 5px;
 
-            text-align: left;
-            cursor: pointer;
+    text-align: left;
+    cursor: pointer;
 
-            display: flex;
-            flex-flow: row;
-            align-items: center;
-            justify-content: flex-start;
-            gap: 0.5rem;
-        }
+    display: flex;
+    flex-flow: row;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 0.5rem;
+}
 
-        .quiz_question__lower input:checked + label {
-            background-color: var(--selected_background);
-        }
+.quiz_question__lower input:checked + label {
+    background-color: var(--selected_background);
+}
 
-        /* svgs */
-        .quiz_svg, .quiz_svg--checked {
-            width: 2rem;
-            height: 2rem;
-        }
+/* svgs */
+.quiz_svg, .quiz_svg--checked {
+    width: 2rem;
+    height: 2rem;
+}
 
-        .quiz_svg image, .quiz_svg--checked image, .quiz_svg path, .quiz_svg--checked path {
-            height: 2rem !important;
-            width: 2rem !important;
-            object-fit: contain;
-            object-position: center;
-        }
+.quiz_svg image, .quiz_svg--checked image, .quiz_svg path, .quiz_svg--checked path {
+    height: 2rem !important;
+    width: 2rem !important;
+    object-fit: contain;
+    object-position: center;
+}
 
-        .quiz_question__lower input:not(:checked) + label .quiz_svg {
-            display: block;
-        }
+.quiz_question__lower input:not(:checked) + label .quiz_svg {
+    display: block;
+}
 
-        .quiz_question__lower input:not(:checked) + label .quiz_svg--checked {
-            display: none;
-        }
+.quiz_question__lower input:not(:checked) + label .quiz_svg--checked {
+    display: none;
+}
 
-        .quiz_question__lower input:checked + label .quiz_svg {
-            display: none;
-        }
+.quiz_question__lower input:checked + label .quiz_svg {
+    display: none;
+}
 
-        .quiz_question__lower input:checked + label .quiz_svg--checked {
-            display: block;
-        }
+.quiz_question__lower input:checked + label .quiz_svg--checked {
+    display: block;
+}
 
-        /* hide explanation at first */
-        .quiz_question__explanation {
-            display: none;
-        }
+/* hide explanation at first */
+.quiz_question__explanation {
+    display: none;
+}
 
-        /* others */
-        .quiz_button {
-            padding: 0.5rem;
-            padding-left: 1.5rem;
-            padding-right: 1.5rem;
+/* others */
+.quiz_button {
+    padding: 0.5rem;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
 
-            background-color: #4272d2;
-            
-            color: white !important;
-            font-size: larger;
-            font-weight: 500;
+    background-color: #4272d2;
+    
+    color: white !important;
+    font-size: larger;
+    font-weight: 500;
 
-            border: none;
-            border-radius: 8px;
+    border: none;
+    border-radius: 8px;
 
-            margin-top: 2rem;
+    margin-top: 2rem;
 
-            &:hover {
-                background-color: rgb(36, 65, 127);
-            }
-        }
+    &:hover {
+        background-color: rgb(36, 65, 127);
+    }
+}
 
-        .quiz_audio {
-            display: none;
-        }
+.quiz_audio {
+    display: none;
+}
 
-        #quiz-title {
-            width: 100%;
-            text-align: left;
-        }
-
-    </style>
+#quiz-title {
+    width: 100%;
+    text-align: left;
+}
       """
 
 # ------------------------------------------------------------------------------------------------------------
@@ -191,10 +187,7 @@ def create_js(array:list, completion_js:str):
     return JS.replace("####--QUIZ_ARRAY--####", array_string).replace("####--QUIT_COMPLETION_JS--####", completion_js)
 
 JS = """
-<!-- QUIZ JS -->
-<script>
-    console.log("Quiz JS is loaded")
-    document.addEventListener("DOMContentLoaded", () => {
+    console.log("Quiz JS is loaded");
     let quizContent = document.getElementById('quiz-content');
 
     // Control of taking a step is built using events
@@ -372,8 +365,6 @@ JS = """
         //console.log("Next event is triggered");
         revealOneAndBuildButton();
     });
-    })
-</script>
       """
 
 
