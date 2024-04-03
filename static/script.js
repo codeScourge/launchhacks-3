@@ -66,7 +66,9 @@ function editText(index) {
     editor.appendChild(editorText)
 
     doneButton = document.createElement('button')
-    doneButton.innerHTML = 'Done'
+    // doneButton.innerHTML = 'Done'
+    doneButton.classList.add('done')
+    doneButton.innerHTML = '<img src="/static/done.svg">'
 
     doneButton.addEventListener('click', function () {
         components[index].text = editorText.value // Transfer new text to the component
@@ -78,7 +80,9 @@ function editText(index) {
     editor.appendChild(doneButton)
 
     deleteButton = document.createElement('button')
-    deleteButton.innerHTML = 'Delete'
+    deleteButton.classList.add('delete')
+    deleteButton.innerHTML = '<img src="/static/delete.svg">'
+    // deleteButton.innerHTML = 'Delete'
     deleteButton.addEventListener('click', function () {
         components.splice(index, 1)
         updatePage()
@@ -135,6 +139,7 @@ function editImage(index) {
         editor.style.display = 'none'
 
     })
+
 
     editor.appendChild(doneButton)
     editor.appendChild(deleteButton)
