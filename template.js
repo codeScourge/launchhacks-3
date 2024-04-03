@@ -31,7 +31,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const lower = content.querySelector(".quiz_question__lower");
         for (const input of lower.children) {
             if (input.checked) {
-                return input.value;
+                return Number(input.value);
             }
         }
     }
@@ -43,7 +43,7 @@ document.addEventListener("DOMContentLoaded", () => {
         let answers = [];
         for (const input of lower.children) {
             if (input.checked) {
-                answers.push(input.value);
+                answers.push(Number(input.value));
             }
         }
         return answers;
@@ -55,29 +55,33 @@ document.addEventListener("DOMContentLoaded", () => {
         content.querySelector(".quiz_question__explanation").style.display = "flex";
 
         if (typeof correctIdxs === "number") {
-            correctIdxs = [correctIdxs];
+            correctIdxs = [correctIdxs]; // list of correct indexes
         }
 
         // looping over children, disabling inputs, setting corresponding labels to their status
         let children = content.querySelector(".quiz_question__lower").children;
         let errors = 0;
         let corrects = 0;
-        for (let i=0; i<children.length; i++) {
-            let child = children[i];
-            if (child.tagName === "INPUT") {
-                child.disabled = true;  // retarded children lol
+        let i = 0;
 
+        for (let x=0 ; x < children.length; x++) {
+            const child = children[x];
+            if (child.tagName === "INPUT") {
+                child.disabled = true;
                 if ((correctIdxs.includes(i) && child.checked)) {
-                    children[i+1].style.borderColor = "green";
+                    console.log(i, " is correct")
+                    children[x+ 1].style.borderColor = "green";
                     corrects++;
                 } else if ((!correctIdxs.includes(i) && child.checked) || (correctIdxs.includes(i) && !child.checked)) {
-                    children[i+1].style.borderColor = "red";
+                    console.log(i, " is incorrect")
+                    children[x+1].style.borderColor = "red";
                     errors++;
                 }
 
                 i++
             } else if (child.tagName === "LABEL") {
                 continue;
+
             } else {
                 console.log("Error: Unknown tag")
             }
@@ -97,8 +101,6 @@ document.addEventListener("DOMContentLoaded", () => {
         for (let i = 0; i < quizContent.children.length; i++) {
             const content = quizContent.children[i];
             if (window.getComputedStyle(content).display === "none") {
-                //console.log("Display is none, revealing")
-                console.log(content)
 
                 // revealing one more content
                 content.style.display = "block";
@@ -146,6 +148,9 @@ document.addEventListener("DOMContentLoaded", () => {
                             } else {
                                 console.log("Error: Unknown type of quiz")
                             }
+
+                            console.log("User Answer: ", user_answer);
+                            console.log("Correct Answer: ", quiz_obj.answer);
 
                             if (user_answer == quiz_obj.answer) {
                                 console.log("Correct");

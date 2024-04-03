@@ -102,9 +102,10 @@ def create_checkbox(question:str, choices:list, answer_idxs:list, explanation:st
 
 
 # --- workflows
-def generate_html(data:list, title:str, introduction:str, static_url:str):
+def generate_html(data:list, title:str, introduction:str, goodbye:str, static_url:str):
     quiz_data = [{"type": "text", "text": introduction}]
     quiz_data.extend(data)
+    quiz_data.append({"type": "text", "text": goodbye})
     inner_html = ""
     js_array = []
 
@@ -155,8 +156,8 @@ def generate_html(data:list, title:str, introduction:str, static_url:str):
 
 
 # --- assembler
-def main(data: list, title:str, introduction:str, completion_js:str, static_url:str):
-    outer_html, js_array = generate_html(data, title, introduction, static_url)
+def main(data: list, title:str, introduction:str, goodbye:str, completion_js:str, static_url:str):
+    outer_html, js_array = generate_html(data, title, introduction, goodbye, static_url)
     js = create_js(js_array, completion_js)
 
     return outer_html, js, CSS

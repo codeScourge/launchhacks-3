@@ -11,15 +11,28 @@ def indexRoute():
     return render_template('index.html')
 
 
+@app.route("/example")
+def exampleRoute():
+    elements = []
+    title = "My Quiz"
+    end_js = ""
+    introduction = "Welcome to my quiz!"
+    goodbye = "Goodbye!"
+    static_url = f"http://{request.host}/static"
+
+    html, js, css = main(elements, title, introduction, goodbye, end_js, static_url)
+    return render_template('preview.html', html_code=html, js_code=js, css_code=css)
+
 @app.route("/preview")
 def previewRoute():
     elements = json.loads(request.args.get('elements'))
     title = "My Quiz"
     end_js = ""
     introduction = "Welcome to my quiz!"
+    goodbye = "Goodbye!"
     static_url = f"http://{request.host}/static"
 
-    html, js, css = main(elements, title, introduction, end_js, static_url)
+    html, js, css = main(elements, title, introduction, goodbye, end_js, static_url)
     return render_template('preview.html', html_code=html, js_code=js, css_code=css)
     
 
@@ -30,9 +43,10 @@ def apiRoute():
     title = "My Quiz"
     end_js = ""
     introduction = "Welcome to my quiz!"
+    goodbye = "Goodbye!"
     static_url = f"http://{request.host}/static"
 
-    html, js, css = main(elements, title, introduction, end_js, static_url)
+    html, js, css = main(elements, title, introduction, goodbye, end_js, static_url)
     return {
         "html": html,
         "js": js,
