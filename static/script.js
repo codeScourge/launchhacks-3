@@ -45,6 +45,9 @@ function updatePage() {
 text.addEventListener('click', function () {
     editText(null) // Open the editor with a new text component
 })
+image.addEventListener('click', function () {
+    editImage(null) // Open the editor with a new image component
+})
 
 function editText(index) {
     editor.replaceChildren() // Clear the editor
@@ -54,6 +57,8 @@ function editText(index) {
         components.push({ "type": "text", "text": "" })
         index = components.length - 1
     }
+
+    editor.style.display = 'block'
 
     let component = components[index]
     editorText = document.createElement('textarea')
@@ -67,11 +72,73 @@ function editText(index) {
         components[index].text = editorText.value // Transfer new text to the component
         updatePage()
         editor.replaceChildren() // Clear the editor
+        editor.style.display = 'none'
     })
 
     editor.appendChild(doneButton)
 
+    deleteButton = document.createElement('button')
+    deleteButton.innerHTML = 'Delete'
+    deleteButton.addEventListener('click', function () {
+        components.splice(index, 1)
+        updatePage()
+        editor.replaceChildren() // Clear the editor
+        editor.style.display = 'none'
+    })
+    editor.appendChild(deleteButton)
+
     // updatePage()
+}
+
+function editImage(index) {
+    editor.replaceChildren() // Clear the editor
+
+    if (index == null) {
+        // Create a new text component
+        components.push({ "type": "image", "url": "https://via.placeholder.com/500", "alt": "placeholder image" })
+        index = components.length - 1
+    }
+
+    editor.style.display = 'block'
+
+
+    let component = components[index]
+
+    editorUrl = document.createElement('input')
+    editorUrl.placeholder = 'Image URL'
+    editorUrl.value = component.url
+
+    altText = document.createElement('input')
+    altText.placeholder = 'Alt text'
+    altText.value = component.alt
+
+    deleteButton = document.createElement('button')
+    deleteButton.innerHTML = 'Delete'
+    deleteButton.addEventListener('click', function () {
+        components.splice(index, 1)
+        updatePage()
+        editor.replaceChildren() // Clear the editor
+        editor.style.display = 'none'
+    })
+
+    editor.appendChild(editorUrl)
+    editor.appendChild(altText)
+
+    doneButton = document.createElement('button')
+    doneButton.innerHTML = 'Done'
+
+    doneButton.addEventListener('click', function () {
+        components[index].url = editorUrl.value // Transfer new text to the component
+        components[index].alt = altText.value
+        updatePage()
+        editor.replaceChildren() // Clear the editor
+        editor.style.display = 'none'
+
+    })
+
+    editor.appendChild(doneButton)
+    editor.appendChild(deleteButton)
+
 }
 
 function editComponent(index) {
@@ -80,7 +147,10 @@ function editComponent(index) {
         // Open the text editor and retrieve text from 
         editText(index)
     }
-
+    else if (component.type == 'image') {
+        // Open the image editor
+        editImage(index)
+    }
 }
 // Component editor
 function reattatchListeners() {
@@ -95,7 +165,6 @@ function reattatchListeners() {
             console.log('Adding listener to component ' + i)
             // Wait for element to load
             isElementLoaded(documentComponents[i]).then(() => {
-                documentComponents[i].style.color = 'red'
                 documentComponents[i].addEventListener('click', function () {
                     let index = i
                     editComponent(index)
